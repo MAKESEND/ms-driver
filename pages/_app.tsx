@@ -3,6 +3,9 @@ import type { AppProps } from 'next/app';
 import { appWithTranslation } from 'next-i18next';
 import CssBaseline from '@mui/material/CssBaseline';
 
+import dynamic from 'next/dynamic';
+const CoreProvider = dynamic(() => import('~/providers/CoreProvider'));
+
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: React.ReactElement) => React.ReactNode;
 };
@@ -17,7 +20,7 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
   return (
     <>
       <CssBaseline />
-      {getLayout(<Component {...pageProps} />)}
+      <CoreProvider>{getLayout(<Component {...pageProps} />)}</CoreProvider>
     </>
   );
 }
