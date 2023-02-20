@@ -2,6 +2,9 @@
 const { i18n } = require('./next-i18next.config');
 
 const nextConfig = {
+  images: {
+    domains: ['flagcdn.com', 'images.unsplash.com', 'res.cloudinary.com'],
+  },
   reactStrictMode: true,
   i18n,
   experimental: {
