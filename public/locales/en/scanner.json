@@ -1,0 +1,35 @@
+{
+  "title": {
+    "scanQrCode": "Scan QR Code",
+    "tapToScan": "Tap to scan",
+    "switchCamera": "Switch camera",
+    "cameraDenied": "Camera is not available. Please update your permission",
+    "received": "Received"
+  },
+  "select": {
+    "task": {
+      "label": "Task",
+      "scan": "Scan",
+      "pickup": "Pickup",
+      "dropoff": "Dropoff",
+      "sorting": "Sorting"
+    },
+    "mode": {
+      "label": "Mode",
+      "single": "Single",
+      "bulk": "Bulk"
+    },
+    "camera": { "label": "Camera" }
+  },
+  "btn": {
+    "swipeUp": "Swipe up",
+    "start": "Start",
+    "stop": "Stop",
+    "reload": "Reload",
+    "result": "Result"
+  },
+  "error": {
+    "somethingWentWrong": "Something went wrong",
+    "scannerError": "Scanner error"
+  }
+}
