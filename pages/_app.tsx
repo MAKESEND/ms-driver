@@ -1,17 +1,23 @@
+import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
-import Head from 'next/head';
 import { appWithTranslation } from 'next-i18next';
 import CssBaseline from '@mui/material/CssBaseline';
 
-function App({ Component, pageProps }: AppProps) {
+export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
+  getLayout?: (page: React.ReactElement) => React.ReactNode;
+};
+
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout;
+};
+
+function App({ Component, pageProps }: AppPropsWithLayout) {
+  const getLayout = Component.getLayout || ((page) => page);
+
   return (
     <>
-      <Head>
-        <meta name='viewport' content='initial-scale=1, width=device-width' />
-      </Head>
-      <CssBaseline>
-        <Component {...pageProps} />
-      </CssBaseline>
+      <CssBaseline />
+      {getLayout(<Component {...pageProps} />)}
     </>
   );
 }
