@@ -4,6 +4,8 @@ import { DefaultSeo } from 'next-seo';
 import { DefaultSeoConfig } from 'next-seo.config';
 import { appWithTranslation } from 'next-i18next';
 
+import ErrorBoundary from '~/components/common/ErrorBoundary';
+
 import dynamic from 'next/dynamic';
 const CoreProvider = dynamic(() => import('~/providers/CoreProvider'));
 
@@ -21,7 +23,13 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
   return (
     <>
       <DefaultSeo {...DefaultSeoConfig} />
-      <CoreProvider>{getLayout(<Component {...pageProps} />)}</CoreProvider>
+      <CoreProvider>
+        {getLayout(
+          <ErrorBoundary>
+            <Component {...pageProps} />
+          </ErrorBoundary>
+        )}
+      </CoreProvider>
     </>
   );
 }
