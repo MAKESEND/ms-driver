@@ -1,7 +1,8 @@
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
+import { DefaultSeo } from 'next-seo';
+import { DefaultSeoConfig } from 'next-seo.config';
 import { appWithTranslation } from 'next-i18next';
-import CssBaseline from '@mui/material/CssBaseline';
 
 import dynamic from 'next/dynamic';
 const CoreProvider = dynamic(() => import('~/providers/CoreProvider'));
@@ -19,7 +20,7 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
 
   return (
     <>
-      <CssBaseline />
+      <DefaultSeo {...DefaultSeoConfig} />
       <CoreProvider>{getLayout(<Component {...pageProps} />)}</CoreProvider>
     </>
   );
