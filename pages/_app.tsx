@@ -4,10 +4,10 @@ import { DefaultSeo } from 'next-seo';
 import { DefaultSeoConfig } from 'next-seo.config';
 import { appWithTranslation } from 'next-i18next';
 
-import ErrorBoundary from '~/components/common/ErrorBoundary';
+import ErrorBoundary from '~/components/common/error-boundary';
 
 import dynamic from 'next/dynamic';
-const CoreProvider = dynamic(() => import('~/providers/CoreProvider'));
+const CoreProvider = dynamic(() => import('~/providers/core-provider'));
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: React.ReactElement) => React.ReactNode;

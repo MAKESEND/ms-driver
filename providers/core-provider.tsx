@@ -1,7 +1,7 @@
 import type { PropsWithChildren } from 'react';
 
-import StyleProvider from './StyleProvider';
-import RouteLoader from '~/components/common/loader/RouteLoader';
+import StyleProvider from './style-provider';
+import RouteLoader from '~/components/common/loader/route-loader';
 
 const CoreProvider: React.FC<PropsWithChildren> = ({ children }) => {
   return (

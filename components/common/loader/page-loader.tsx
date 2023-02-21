@@ -1,5 +1,5 @@
 import { Box as MuiBox, Fade, styled } from '@mui/material';
-import MSDeliveryLoader from './delivery/MSDeliveryLoader';
+import MSDeliveryLoader from '../lottie/ms-logo-lottie';
 
 const Box = styled(MuiBox)(({ theme }) => ({
   width: '100vw',

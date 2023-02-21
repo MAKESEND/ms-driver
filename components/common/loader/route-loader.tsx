@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { Box, Fade } from '@mui/material';
 
-import PageLoader from './PageLoader';
+import PageLoader from './page-loader';
 
 export const RouteLoader: React.FC<React.PropsWithChildren> = ({
   children,

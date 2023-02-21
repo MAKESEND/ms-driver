@@ -1,7 +1,7 @@
 import NextImage from 'next/legacy/image';
 import { Box } from '@mui/material';
 
-import DeliveryLoader from './DeliveryLoader';
+import DeliveryLoader from './delivery/rider-lottie';
 
 export const MSDeliveryLoader: React.FC = () => {
   return (
