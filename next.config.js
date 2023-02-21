@@ -6,7 +6,6 @@ const nextConfig = {
   experimental: {
     appDir: true,
   },
-
   i18n,
   images: {
     domains: ['flagcdn.com', 'images.unsplash.com', 'res.cloudinary.com'],
