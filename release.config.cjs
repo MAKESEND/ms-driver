@@ -17,6 +17,7 @@ const dryRunPlugins = [
   '@semantic-release/git',
 ];
 
+// TODO: setup ci process with GH actions
 const allPlugins = [
   ...dryRunPlugins,
   '@semantic-release/github',
