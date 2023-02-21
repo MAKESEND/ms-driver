@@ -8,6 +8,9 @@ import ErrorBoundary from '~/components/common/error-boundary';
 
 import dynamic from 'next/dynamic';
 const CoreProvider = dynamic(() => import('~/providers/core-provider'));
+const RouteLoader = dynamic(
+  () => import('~/components/common/loader/route-loader')
+);
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: React.ReactElement) => React.ReactNode;
@@ -26,6 +29,7 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
       <CoreProvider>
         {getLayout(
           <ErrorBoundary>
+            <RouteLoader />
             <Component {...pageProps} />
           </ErrorBoundary>
         )}

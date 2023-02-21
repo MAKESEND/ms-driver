@@ -3,17 +3,17 @@ import { NextSeo } from 'next-seo';
 import type { NextPageWithLayout } from '~/pages/_app';
 import DrawerLayout from '~/components/layouts/drawer-layout';
 
-const DashboardPage: NextPageWithLayout = () => {
+const SettingsPage: NextPageWithLayout = () => {
   return (
     <>
-      <NextSeo title='Dashboard' />
-      Dashboard
+      <NextSeo title='Settings' />
+      Settings
     </>
   );
 };
 
-DashboardPage.getLayout = (page: React.ReactElement) => {
+SettingsPage.getLayout = (page) => {
   return <DrawerLayout>{page}</DrawerLayout>;
 };
 
-export default DashboardPage;
+export default SettingsPage;

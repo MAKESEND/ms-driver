@@ -1,12 +1,9 @@
-import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { Box, Fade } from '@mui/material';
+import { useEffect, useState } from 'react';
 
 import PageLoader from './page-loader';
 
-export const RouteLoader: React.FC<React.PropsWithChildren> = ({
-  children,
-}) => {
+export const RouteLoader: React.FC<React.PropsWithChildren> = () => {
   const { events } = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -26,14 +23,7 @@ export const RouteLoader: React.FC<React.PropsWithChildren> = ({
     };
   }, [events]);
 
-  return (
-    <>
-      <PageLoader isLoading={isLoading} />
-      <Fade in>
-        <Box>{children}</Box>
-      </Fade>
-    </>
-  );
+  return <PageLoader isLoading={isLoading} />;
 };
 
 export default RouteLoader;
