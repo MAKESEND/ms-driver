@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest --coverage --passWithNoTests",
-    "preview-release": "npx semantic-release --dry-run --no-ci"
+    "preview-release": "npx semantic-release --dry-run --no-ci",
+    "setup-env": "cp .env.example .env.local"
   },
   "dependencies": {
     "@emotion/react": "^11.10.6",
