@@ -14,10 +14,10 @@ const DrawerLayout: React.FC<
   const closeDrawer = () => setOpen(false);
 
   return (
-    <Box id='wrapper' sx={{ display: 'flex', height: '100vh' }}>
+    <Box sx={{ display: 'flex', height: '100vh' }}>
       <DrawerSideNav open={open} onClose={closeDrawer} />
       <DrawerTopNav open={open} toggleDrawer={setOpen} />
-      <DrawerMain id='drawerID' open={open}>
+      <DrawerMain open={open}>
         <DrawerHeader />
         {children}
       </DrawerMain>

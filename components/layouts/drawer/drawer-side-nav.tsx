@@ -1,5 +1,5 @@
-import { DrawerProps, Theme } from '@mui/material';
-import { Drawer, useMediaQuery } from '@mui/material';
+import { DrawerProps, Theme, useMediaQuery } from '@mui/material';
+import { Drawer } from '@mui/material';
 
 export interface DrawerSideNavProps {
   open: boolean;
@@ -7,12 +7,12 @@ export interface DrawerSideNavProps {
 }
 
 const DrawerSideNav: React.FC<DrawerSideNavProps> = ({ open, onClose }) => {
-  const isSmallScreen = useMediaQuery((theme: Theme) =>
-    theme.breakpoints.up('md')
+  const isLargeScreen = useMediaQuery((theme: Theme) =>
+    theme.breakpoints.down('md')
   );
-  const variant: DrawerProps['variant'] = isSmallScreen
-    ? 'persistent'
-    : 'temporary';
+  const variant: DrawerProps['variant'] = isLargeScreen
+    ? 'temporary'
+    : 'persistent';
 
   return (
     <Drawer
