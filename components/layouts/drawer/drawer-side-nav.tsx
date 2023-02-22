@@ -1,5 +1,11 @@
-import { DrawerProps, Theme, useMediaQuery } from '@mui/material';
-import { Drawer } from '@mui/material';
+import { useTranslation } from 'next-i18next';
+import { Divider, Drawer, useMediaQuery } from '@mui/material';
+import type { DrawerProps, Theme } from '@mui/material';
+
+import SideNavHeader from './side-nav/side-nav-header';
+import SideNavLinkList from './side-nav/side-nav-link-list';
+import SideNavSignout from './side-nav/side-nav-signout';
+import FlexSpacer from '~/components/common/flex-spacer';
 
 export interface DrawerSideNavProps {
   open: boolean;
@@ -7,6 +13,7 @@ export interface DrawerSideNavProps {
 }
 
 const DrawerSideNav: React.FC<DrawerSideNavProps> = ({ open, onClose }) => {
+  const { t } = useTranslation('common');
   const isLargeScreen = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down('md')
   );
@@ -27,7 +34,14 @@ const DrawerSideNav: React.FC<DrawerSideNavProps> = ({ open, onClose }) => {
           width: (theme) => theme.layout.size.drawerWidth,
         },
       }}
-    ></Drawer>
+    >
+      <SideNavHeader placeholder={t('sideNav.makesend')} />
+      <Divider sx={{ mt: 0 }} />
+      <SideNavLinkList />
+      <FlexSpacer />
+      <Divider />
+      <SideNavSignout signoutBtnText={t('sideNav.btn.signout')} />
+    </Drawer>
   );
 };
 
