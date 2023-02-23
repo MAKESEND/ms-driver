@@ -1,6 +1,7 @@
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import { DefaultSeo } from 'next-seo';
+import { SessionProvider } from 'next-auth/react';
 import { DefaultSeoConfig } from 'next-seo.config';
 import { appWithTranslation } from 'next-i18next';
 
@@ -21,19 +22,24 @@ type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
 };
 
-function App({ Component, pageProps }: AppPropsWithLayout) {
+function App({
+  Component,
+  pageProps: { session, pageProps },
+}: AppPropsWithLayout) {
   const getLayout = Component.getLayout || ((page) => page);
 
   return (
     <>
       <DefaultSeo {...DefaultSeoConfig} />
       <CoreProvider>
-        {getLayout(
-          <ErrorBoundary>
-            <RouteLoader />
-            <Component {...pageProps} />
-          </ErrorBoundary>
-        )}
+        <SessionProvider session={session}>
+          {getLayout(
+            <ErrorBoundary>
+              <RouteLoader />
+              <Component {...pageProps} />
+            </ErrorBoundary>
+          )}
+        </SessionProvider>
       </CoreProvider>
     </>
   );
