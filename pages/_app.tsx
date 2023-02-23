@@ -4,6 +4,7 @@ import { DefaultSeo } from 'next-seo';
 import { DefaultSeoConfig } from 'next-seo.config';
 import { appWithTranslation } from 'next-i18next';
 
+import { trpc } from '~/utils/trpc';
 import ErrorBoundary from '~/components/common/error-boundary';
 
 import dynamic from 'next/dynamic';
@@ -38,4 +39,4 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
   );
 }
 
-export default appWithTranslation(App);
+export default trpc.withTRPC(appWithTranslation(App));
