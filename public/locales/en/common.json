@@ -24,11 +24,9 @@
     "settings": "Settings",
     "map": "Map",
     "components": "Components",
-    "tasks": {
-      "id": "Tasks",
-      "pickup": "Pickup",
-      "dropoff": "Dropoff"
-    }
+    "tasks": "Tasks",
+    "pickup": "Pickup",
+    "dropoff": "Dropoff"
   },
   "branch": {
     "dmk": "Don Mueang",

@@ -9,32 +9,31 @@ import {
 } from '@mui/material';
 
 import LinkIcons from './link-icons';
+import type { CustomLink } from '~/constants/sideNavLink';
 
-export interface SingleLinkProps {
-  id: string;
-  group?: string;
-  href?: string;
-  onPath?: string;
+export interface SingleLinkProps extends CustomLink {
+  onPath: string;
+  parentLink?: `/${string}`;
   disabled?: boolean;
 }
 
 export const SingleLink: React.FC<SingleLinkProps> = ({
   id,
-  group,
   href = '/',
   onPath,
+  parentLink,
   disabled = false,
 }) => {
   const { t } = useTranslation('common');
 
   return (
     <ListItem disableGutters>
-      <Link href={href} passHref legacyBehavior>
+      <Link href={`${parentLink ?? ''}${href}`} passHref legacyBehavior>
         <ListItemButton selected={id === onPath} disabled={disabled}>
           <ListItemIcon>{LinkIcons[id]}</ListItemIcon>
           <ListItemText>
             <Typography sx={{ textAlign: 'left' }}>
-              {t(`links${group ? `.${group}` : ''}.${id}`)}
+              {t(`links.${id}`)}
             </Typography>
           </ListItemText>
         </ListItemButton>

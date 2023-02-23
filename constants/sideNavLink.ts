@@ -1,49 +1,71 @@
-export interface Link {
+import { InAppLinks } from './enums';
+
+export type CustomLink = {
   id: string;
-  title: string;
+  label: string;
   href?: string;
   disabled?: boolean;
-  links?: Link[];
-}
+  nested?: CustomLinkList;
+};
 
-export const sideNavLink: Link[] = [
-  {
+export type CustomLinkList = {
+  [key in InAppLinks]?: CustomLink;
+};
+
+export const inAppLinks: CustomLinkList = {
+  [InAppLinks.DASHBOARD]: {
     id: 'dashboard',
+    label: 'dashboard',
     href: '/dashboard',
-    title: 'Warehouse',
+    disabled: false,
   },
-  {
+  [InAppLinks.SORTING]: {
     id: 'sorting',
+    label: 'sorting',
     href: '/sorting',
-    title: 'Sorting',
+    disabled: false,
   },
-  {
+  [InAppLinks.TASKS]: {
     id: 'tasks',
-    title: 'Tasks',
-    links: [
-      {
+    label: 'tasks',
+    href: '/tasks',
+    nested: {
+      [InAppLinks.PICKUP]: {
         id: 'pickup',
-        href: '/tasks/pickup',
-        title: 'Pickup',
+        label: 'pickup',
+        href: '/pickup',
+        disabled: false,
       },
-      {
+      [InAppLinks.DROPOFF]: {
         id: 'dropoff',
-        href: '/tasks/dropoff',
-        title: 'Dropoff',
+        label: 'dropoff',
+        href: '/dropoff',
+        disabled: false,
       },
-    ],
+    },
   },
-  {
+  [InAppLinks.SORTING]: {
+    id: 'sorting',
+    label: 'sorting',
+    href: '/sorting',
+    disabled: false,
+  },
+  [InAppLinks.MAP]: {
     id: 'map',
+    label: 'map',
     href: '/map',
-    title: 'Map',
     disabled: true,
   },
-  {
+  [InAppLinks.SCANNER]: {
     id: 'scanner',
+    label: 'scanner',
     href: '/scanner',
-    title: 'Scanner',
+    disabled: false,
   },
-];
-
-export default sideNavLink;
+  [InAppLinks.SETTINGS]: {
+    id: 'settings',
+    label: 'settings',
+    href: '/settings',
+    disabled: false,
+  },
+};
