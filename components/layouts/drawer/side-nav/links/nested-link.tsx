@@ -9,7 +9,7 @@ import {
   Typography,
 } from '@mui/material';
 
-import type { CustomLink } from '~/constants/sideNavLink';
+import type { CustomLink } from '~/constants/side-nav-links';
 import { SingleLink } from './single-link';
 import { LinkIcons } from './link-icons';
 

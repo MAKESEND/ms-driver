@@ -5,7 +5,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Button, Stack, Typography } from '@mui/material';
 
 import { InAppLinks } from '~/constants/enums';
-import { inAppLinks } from '~/constants/sideNavLink';
+import { inAppLinks } from '~/constants/side-nav-links';
 import type { NextPageWithLayout } from '~/pages/_app';
 import DrawerLayout from '~/components/layouts/drawer-layout';
 

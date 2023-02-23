@@ -3,8 +3,8 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { Divider, List } from '@mui/material';
 
-import { inAppLinks } from '~/constants/sideNavLink';
-import type { CustomLink } from '~/constants/sideNavLink';
+import { inAppLinks } from '~/constants/side-nav-links';
+import type { CustomLink } from '~/constants/side-nav-links';
 
 import SideNavSettings from './side-nav-settings';
 import SingleLink from './links/single-link';

@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 
 import LinkIcons from './link-icons';
-import type { CustomLink } from '~/constants/sideNavLink';
+import type { CustomLink } from '~/constants/side-nav-links';
 
 export interface SingleLinkProps extends CustomLink {
   onPath: string;
