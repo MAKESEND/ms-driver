@@ -38,7 +38,7 @@ const SessionManager: React.FC = () => {
   }, [isAuthenticated, router]);
 
   return (
-    <PageLoader isLoading={!isLoading}>
+    <PageLoader isLoading={isLoading}>
       <CircularProgress />
     </PageLoader>
   );
