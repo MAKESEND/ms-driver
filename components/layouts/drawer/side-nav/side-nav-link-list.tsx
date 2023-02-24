@@ -10,6 +10,10 @@ import SideNavSettings from './side-nav-settings';
 import SingleLink from './links/single-link';
 import NestedLink from './links/nested-link';
 
+const Links = Object.values(inAppLinks).filter(
+  (link) => link.id !== 'settings' && link.id !== 'login' && link.id !== 'auth'
+);
+
 const SideNavLinks: React.FC<{ onPath: string } & CustomLink> = (props) => {
   if (props.nested)
     return <NestedLink parentLink={`/${props.id}`} {...props} />;
@@ -26,13 +30,12 @@ export const SideNavLinkList: React.FC = () => {
 
   useEffect(() => {
     const paths = asPath.split('/');
-    setOnPath(() => paths[paths.length - 1]);
+    setOnPath(paths[paths.length - 1]);
   }, [asPath]);
 
   return (
     <List>
-      {Object.values(inAppLinks).map((link) => {
-        if (link.id === 'settings') return null;
+      {Links.map((link) => {
         return <SideNavLinks key={link.id} {...link} onPath={onPath} />;
       })}
       <Divider />

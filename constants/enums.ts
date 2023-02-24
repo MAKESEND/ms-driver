@@ -7,4 +7,6 @@ export enum InAppLinks {
   MAP,
   SCANNER,
   SETTINGS,
+  AUTH,
+  LOGIN,
 }

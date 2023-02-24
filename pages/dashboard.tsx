@@ -4,7 +4,6 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import type { NextPageWithLayout } from '~/pages/_app';
 import DrawerLayout from '~/components/layouts/drawer-layout';
-import { trpc } from '~/utils/trpc';
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {

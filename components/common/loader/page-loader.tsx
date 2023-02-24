@@ -1,5 +1,10 @@
-import { Box as MuiBox, Fade, styled } from '@mui/material';
-import MSDeliveryLoader from '../lottie/ms-logo-lottie';
+import { Box as MuiBox, Fade, styled, CircularProgress } from '@mui/material';
+
+import dynamic from 'next/dynamic';
+const MSDeliveryLoader = dynamic(
+  () => import('~/components/common/lottie/ms-logo-lottie'),
+  { loading: () => <CircularProgress /> }
+);
 
 const Box = styled(MuiBox)(({ theme }) => ({
   width: '100vw',

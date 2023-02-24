@@ -68,4 +68,17 @@ export const inAppLinks: CustomLinkList = {
     href: '/settings',
     disabled: false,
   },
+  [InAppLinks.AUTH]: {
+    id: 'auth',
+    label: 'auth',
+    href: '/auth',
+    nested: {
+      [InAppLinks.LOGIN]: {
+        id: 'login',
+        label: 'login',
+        href: '/login',
+        disabled: false,
+      },
+    },
+  },
 };
