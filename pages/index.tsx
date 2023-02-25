@@ -1,8 +1,7 @@
 import { NextSeo } from 'next-seo';
 import type { GetServerSideProps, NextPage } from 'next';
 
-import { InAppLinks } from '~/constants/enums';
-import { inAppLinks } from '~/constants/side-nav-links';
+import { inAppLinks, InAppLinks } from '~/constants/side-nav-links';
 
 export const getServerSideProps: GetServerSideProps = async () => {
   return {

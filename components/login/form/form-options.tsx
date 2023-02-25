@@ -15,11 +15,11 @@ const Box = styled(MuiBox)(({ theme }) => ({
   justifyContent: 'space-between',
 }));
 
-const LoginFormField = LoginFormFields.Remember;
 
 export const FormOptions: React.FC = () => {
   const { t } = useTranslation('common');
   const { register } = useFormContext();
+  const LoginFormField = LoginFormFields.Remember;
 
   return (
     <Box>
