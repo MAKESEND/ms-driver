@@ -1,7 +1,8 @@
-import type { NextPage, GetStaticProps } from 'next';
-import { useRouter } from 'next/router';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { NextSeo } from 'next-seo';
+import type { NextPage, GetStaticProps } from 'next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+
+import Login from '~/components/login/login-page';
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {
@@ -12,12 +13,10 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 };
 
 const LoginPage: NextPage = () => {
-  const router = useRouter();
-
   return (
     <>
       <NextSeo title='Login' />
-      Login
+      <Login />
     </>
   );
 };

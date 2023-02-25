@@ -5,8 +5,7 @@ import { CircularProgress } from '@mui/material';
 
 import PageLoader from '~/components/common/loader/page-loader';
 
-import { InAppLinks } from '~/constants/enums';
-import { inAppLinks } from '~/constants/side-nav-links';
+import { inAppLinks, InAppLinks } from '~/constants/side-nav-links';
 
 const dashboardHref = inAppLinks[InAppLinks.DASHBOARD]?.href!;
 const authHref = inAppLinks[InAppLinks.AUTH]?.href;

@@ -1,4 +1,15 @@
-import { InAppLinks } from './enums';
+export enum InAppLinks {
+  DASHBOARD = 'dashboard',
+  SORTING = 'sorting',
+  TASKS = 'tasks',
+  DROPOFF = 'dropoff',
+  PICKUP = 'pickup',
+  MAP = 'map',
+  SCANNER = 'scanner',
+  SETTINGS = 'settings',
+  AUTH = 'auth',
+  LOGIN = 'login',
+}
 
 export type CustomLink = {
   id: string;
@@ -14,30 +25,30 @@ export type CustomLinkList = {
 
 export const inAppLinks: CustomLinkList = {
   [InAppLinks.DASHBOARD]: {
-    id: 'dashboard',
+    id: InAppLinks.DASHBOARD,
     label: 'dashboard',
     href: '/dashboard',
     disabled: false,
   },
   [InAppLinks.SORTING]: {
-    id: 'sorting',
+    id: InAppLinks.SORTING,
     label: 'sorting',
     href: '/sorting',
     disabled: false,
   },
   [InAppLinks.TASKS]: {
-    id: 'tasks',
+    id: InAppLinks.TASKS,
     label: 'tasks',
     href: '/tasks',
     nested: {
       [InAppLinks.PICKUP]: {
-        id: 'pickup',
+        id: InAppLinks.PICKUP,
         label: 'pickup',
         href: '/pickup',
         disabled: false,
       },
       [InAppLinks.DROPOFF]: {
-        id: 'dropoff',
+        id: InAppLinks.DROPOFF,
         label: 'dropoff',
         href: '/dropoff',
         disabled: false,
@@ -45,36 +56,36 @@ export const inAppLinks: CustomLinkList = {
     },
   },
   [InAppLinks.SORTING]: {
-    id: 'sorting',
+    id: InAppLinks.SORTING,
     label: 'sorting',
     href: '/sorting',
     disabled: false,
   },
   [InAppLinks.MAP]: {
-    id: 'map',
+    id: InAppLinks.MAP,
     label: 'map',
     href: '/map',
     disabled: true,
   },
   [InAppLinks.SCANNER]: {
-    id: 'scanner',
+    id: InAppLinks.SCANNER,
     label: 'scanner',
     href: '/scanner',
     disabled: false,
   },
   [InAppLinks.SETTINGS]: {
-    id: 'settings',
+    id: InAppLinks.SETTINGS,
     label: 'settings',
     href: '/settings',
     disabled: false,
   },
   [InAppLinks.AUTH]: {
-    id: 'auth',
+    id: InAppLinks.AUTH,
     label: 'auth',
     href: '/auth',
     nested: {
       [InAppLinks.LOGIN]: {
-        id: 'login',
+        id: InAppLinks.LOGIN,
         label: 'login',
         href: '/login',
         disabled: false,

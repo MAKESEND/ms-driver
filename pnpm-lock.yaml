@@ -34,6 +34,7 @@ specifiers:
   react: 18.2.0
   react-device-detect: ^2.2.3
   react-dom: 18.2.0
+  react-hook-form: ^7.43.2
   react-i18next: ^12.1.5
   react-lottie-player: ^1.5.4
   react-use: ^17.4.0
@@ -60,6 +61,7 @@ dependencies:
   react: 18.2.0
   react-device-detect: 2.2.3_biqbaboplfbrettd7655fr4n2y
   react-dom: 18.2.0_react@18.2.0
+  react-hook-form: 7.43.2_react@18.2.0
   react-i18next: 12.1.5_3yopsigl4h4eb2nqrqfsy65uwi
   react-lottie-player: 1.5.4_react@18.2.0
   react-use: 17.4.0_biqbaboplfbrettd7655fr4n2y
@@ -6026,6 +6028,15 @@ packages:
       loose-envify: 1.4.0
       react: 18.2.0
       scheduler: 0.23.0
+
+  /react-hook-form/7.43.2_react@18.2.0:
+    resolution: {integrity: sha512-NvD3Oe2Y9hhqo2R4I4iJigDzSLpdMnzUpNMxlnzTbdiT7NT3BW0GxWCzEtwPudZMUPbZhNcSy1EcGAygyhDORg==}
+    engines: {node: '>=12.22.0'}
+    peerDependencies:
+      react: ^16.8.0 || ^17 || ^18
+    dependencies:
+      react: 18.2.0
+    dev: false
 
   /react-i18next/12.1.5_3yopsigl4h4eb2nqrqfsy65uwi:
     resolution: {integrity: sha512-7PQAv6DA0TcStG96fle+8RfTwxVbHVlZZJPoEszwUNvDuWpGldJmNWa3ZPesEsZQZGF6GkzwvEh6p57qpFD2gQ==}
