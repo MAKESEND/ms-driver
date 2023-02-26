@@ -4,6 +4,9 @@ import { useFormContext } from 'react-hook-form';
 
 import { externalLinks, ExternalLinks } from '~/constants/external-links';
 import { LoginFormFields } from '~/components/login/login-page';
+import type { DriverAuthentication } from '~/components/login/login-page';
+import type { CustomInputProps } from './input/form-base-input';
+import { useState } from 'react';
 
 const Box = styled(MuiBox)(({ theme }) => ({
   px: 1,
@@ -15,11 +18,17 @@ const Box = styled(MuiBox)(({ theme }) => ({
   justifyContent: 'space-between',
 }));
 
-
-export const FormOptions: React.FC = () => {
+export const FormOptions: React.FC<
+  CustomInputProps<DriverAuthentication[LoginFormFields.Remember]>
+> = ({ formField, defaultValue = false }) => {
   const { t } = useTranslation('common');
+  const rememberMeLabel = t('hint.rememberMe');
+  const forgetPasswordHint = t('hint.forgetPassword');
+
   const { register } = useFormContext();
-  const LoginFormField = LoginFormFields.Remember;
+  const [checked, setChecked] = useState<boolean>(defaultValue);
+
+  const externalLinkProps = externalLinks[ExternalLinks.MAKESEND_HOME];
 
   return (
     <Box>
@@ -34,14 +43,20 @@ export const FormOptions: React.FC = () => {
         }}
       >
         <Checkbox
-          {...register(LoginFormField, { required: false })}
+          checked={checked}
+          {...register(formField, {
+            required: false,
+            value: defaultValue,
+            onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
+              setChecked(e.target.checked),
+          })}
           sx={{ maxWidth: '40px', maxHeight: '40px' }}
         />
-        {t('hint.rememberMe')}
+        {rememberMeLabel}
       </Typography>
-      <a {...externalLinks[ExternalLinks.MAKESEND_HOME]}>
+      <a {...externalLinkProps}>
         <Typography sx={{ fontSize: '0.75rem' }}>
-          {t('hint.forgetPassword')}
+          {forgetPasswordHint}
         </Typography>
       </a>
     </Box>

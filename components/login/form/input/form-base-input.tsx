@@ -10,6 +10,11 @@ import { InputLayout } from '../input-layout';
 import dynamic from 'next/dynamic';
 const ClearIcon = dynamic(() => import('@mui/icons-material/Clear'));
 
+export interface CustomInputProps<T = unknown> {
+  formField: string;
+  defaultValue?: T;
+}
+
 export interface FormBaseInputProps<
   T extends FieldValues = FieldValues,
   U = UseControllerProps<T>,

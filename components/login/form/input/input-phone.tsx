@@ -1,22 +1,26 @@
 import { useTranslation } from 'next-i18next';
 
-import { LoginFormFields } from '~/components/login/login-page';
+import type {
+  LoginFormFields,
+  DriverAuthentication,
+} from '~/components/login/login-page';
 import { FormBaseInput } from '~/components/login/form/input/form-base-input';
+import type { CustomInputProps } from '~/components/login/form/input/form-base-input';
 
 import dynamic from 'next/dynamic';
 const PhoneIcon = dynamic(
   () => import('@mui/icons-material/LocalPhoneOutlined')
 );
 
-export const InputPhone: React.FC = () => {
+export const InputPhone: React.FC<
+  CustomInputProps<DriverAuthentication[LoginFormFields.Phone]>
+> = ({ formField, defaultValue }) => {
   const { t } = useTranslation('common');
   const phoneInputPlaceholder = t('auth.phone') || 'Phone';
   const phoneInputRequiredMessage = t('auth.error.required', {
     field: t('auth.phone'),
   });
   const phoneInputErrorMessage = t('auth.error.invalidPhone');
-
-  const formField = LoginFormFields.Phone;
 
   return (
     <FormBaseInput
@@ -33,7 +37,7 @@ export const InputPhone: React.FC = () => {
       }}
       StartIcon={PhoneIcon}
       formControllerConfig={{
-        defaultValue: '', //TODO: get value from cache if remembered
+        defaultValue,
         name: formField,
         rules: {
           required: {

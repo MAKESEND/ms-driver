@@ -1,6 +1,7 @@
 import { useForm, FormProvider } from 'react-hook-form';
 import { Card, CardContent, CardActions, Stack } from '@mui/material';
 
+import type { LoginPageServerProps } from '~/pages/auth/login';
 import { LoginLayout } from './login-layout';
 import { LoginActions } from './login-actions';
 import { LoginForm } from './login-form';
@@ -22,7 +23,9 @@ export interface DriverAuthentication {
 
 const formId = 'ms-driver-login';
 
-export const LoginPage: React.FC = () => {
+export const LoginPage: React.FC<LoginPageServerProps> = ({
+  csrfToken: _csrfToken,
+}) => {
   const formMethods = useForm<DriverAuthentication>();
 
   return (

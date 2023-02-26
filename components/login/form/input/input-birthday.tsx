@@ -1,14 +1,20 @@
 import { useTranslation } from 'next-i18next';
 
+import type {
+  LoginFormFields,
+  DriverAuthentication,
+} from '~/components/login/login-page';
 import { FormBaseInput } from '~/components/login/form/input/form-base-input';
-import { LoginFormFields } from '~/components/login/login-page';
+import type { CustomInputProps } from '~/components/login/form/input/form-base-input';
 
 import dynamic from 'next/dynamic';
 const CalendarMonthIcon = dynamic(
   () => import('@mui/icons-material/CalendarMonthOutlined')
 );
 
-export const InputBirthday: React.FC = () => {
+export const InputBirthday: React.FC<
+  CustomInputProps<DriverAuthentication[LoginFormFields.Birthday]>
+> = ({ formField, defaultValue }) => {
   const { t } = useTranslation('common');
   const birthdayInputPlaceholder = t('auth.dob') || 'Date of birth';
   const birthdayInputRequiredMessage = t('auth.error.required', {
@@ -20,11 +26,9 @@ export const InputBirthday: React.FC = () => {
   // TODO: check with local/locale year
   const thisYear = new Date().getUTCFullYear();
 
-  const LoginFormField = LoginFormFields.Birthday;
-
   return (
     <FormBaseInput
-      formField={LoginFormField}
+      formField={formField}
       inputType='date'
       inputPlaceholder={birthdayInputPlaceholder}
       inputProps={{
@@ -38,8 +42,8 @@ export const InputBirthday: React.FC = () => {
         }
       }}
       formControllerConfig={{
-        defaultValue: '', //TODO: get value from cache if remembered
-        name: LoginFormField,
+        defaultValue,
+        name: formField,
         rules: {
           required: {
             value: true,
