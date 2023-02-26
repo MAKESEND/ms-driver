@@ -5,7 +5,7 @@
     "select": {
       "hint": "Select a branch"
     },
-    "btn": { "signout": "Signout" }
+    "btn": { "logout": "Logout" }
   },
   "topNav": {
     "notification": {

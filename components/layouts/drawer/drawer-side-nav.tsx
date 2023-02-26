@@ -14,6 +14,9 @@ export interface DrawerSideNavProps {
 
 const DrawerSideNav: React.FC<DrawerSideNavProps> = ({ open, onClose }) => {
   const { t } = useTranslation('common');
+  const sideNavHeaderPlaceholder = t('sideNav.makesend') ?? 'MAKESEND';
+  const logoutBtnText = t('sideNav.btn.logout') ?? 'Logout';
+
   const isLargeScreen = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down('md')
   );
@@ -35,12 +38,12 @@ const DrawerSideNav: React.FC<DrawerSideNavProps> = ({ open, onClose }) => {
         },
       }}
     >
-      <SideNavHeader placeholder={t('sideNav.makesend')} />
+      <SideNavHeader placeholder={sideNavHeaderPlaceholder} />
       <Divider sx={{ mt: 0 }} />
       <SideNavLinkList />
       <FlexSpacer />
       <Divider />
-      <SideNavLogout logoutBtnText={t('sideNav.btn.signout')} />
+      <SideNavLogout logoutBtnText={logoutBtnText} />
     </Drawer>
   );
 };
