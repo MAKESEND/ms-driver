@@ -25,6 +25,7 @@ export const SingleLink: React.FC<SingleLinkProps> = ({
   disabled = false,
 }) => {
   const { t } = useTranslation('common');
+  const linkText = t(`links.${id}`) ?? id;
 
   return (
     <ListItem disableGutters>
@@ -32,9 +33,7 @@ export const SingleLink: React.FC<SingleLinkProps> = ({
         <ListItemButton selected={id === onPath} disabled={disabled}>
           <ListItemIcon>{LinkIcons[id]}</ListItemIcon>
           <ListItemText>
-            <Typography sx={{ textAlign: 'left' }}>
-              {t(`links.${id}`)}
-            </Typography>
+            <Typography sx={{ textAlign: 'left' }}>{linkText}</Typography>
           </ListItemText>
         </ListItemButton>
       </Link>

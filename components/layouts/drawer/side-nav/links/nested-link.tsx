@@ -30,13 +30,14 @@ export const NestedLink: React.FC<NestedLinkProps> = ({
 }) => {
   const { t } = useTranslation('common');
   const [open, setOpen] = useState(false);
+  const linkText = t(`links.${id}`) ?? id;
 
   return (
     <>
       <ListItemButton onClick={() => setOpen((val) => !val)}>
         <ListItemIcon>{LinkIcons[id]}</ListItemIcon>
         <ListItemText>
-          <Typography sx={{ textAlign: 'left' }}>{t(`links.${id}`)}</Typography>
+          <Typography sx={{ textAlign: 'left' }}>{linkText}</Typography>
         </ListItemText>
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>

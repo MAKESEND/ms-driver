@@ -24,8 +24,10 @@ const SideNavLinks: React.FC<{ onPath: string } & CustomLink> = (props) => {
 };
 
 export const SideNavLinkList: React.FC = () => {
-  const { asPath } = useRouter();
   const { t } = useTranslation('common');
+  const settingsText = t('sideNav.setting') ?? 'Settings';
+
+  const { asPath } = useRouter();
   const [onPath, setOnPath] = useState<string>('');
 
   useEffect(() => {
@@ -40,7 +42,7 @@ export const SideNavLinkList: React.FC = () => {
       })}
       <Divider />
       <SideNavSettings
-        settingsText={t('sideNav.setting')}
+        settingsText={settingsText}
         selected={onPath === 'settings'}
       />
     </List>
