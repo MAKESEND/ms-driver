@@ -9,6 +9,7 @@ import {
   localStorageKeyList,
   LocalStorageKeys,
 } from '~/constants/local-storage-keys';
+import { authProviders, AuthProviders } from '~/constants/auth-provider';
 
 import type { DriverAuthentication } from '~/components/login/login-page';
 import { LoginFormFields } from '~/components/login/login-page';
@@ -35,7 +36,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ formId }) => {
   // TODO: revalidate login process with sensitive data and security
   const onSubmit = handleSubmit(async () => {
     const { birthday, phone, remember_me } = getValues();
-    const res = await signIn('credentials', {
+    const res = await signIn(authProviders[AuthProviders.MS_DRIVER], {
       birthday,
       phone,
       redirect: false,
@@ -46,19 +47,12 @@ export const LoginForm: React.FC<LoginFormProps> = ({ formId }) => {
         // manage cache in localStorage;
         remember_me ? setValue(getValues()) : remove();
 
-        /**
-         * redirect to by following priority
-         * 1. where user is from
-         * 2. where server points to
-         * 3. dashboard as fallback
-         */
         router.replace(
-          (router.query?.from as string) ??
-            res.url ??
-            inAppLinks[InAppLinks.DASHBOARD]!
+          (router.query?.from as string) ?? inAppLinks[InAppLinks.DASHBOARD]!
         );
       }
-
+    }
+    if (/2\d\d/g.test(String(res?.status ?? 500))) {
       //TODO: handle login error with react-hook-form and/or extra info
     }
   });

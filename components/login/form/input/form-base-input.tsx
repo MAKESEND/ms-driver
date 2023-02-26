@@ -8,7 +8,9 @@ import { InputAlert } from '../input-alert';
 import { InputLayout } from '../input-layout';
 
 import dynamic from 'next/dynamic';
-const ClearIcon = dynamic(() => import('@mui/icons-material/Clear'));
+const ClearIcon = dynamic(() => import('@mui/icons-material/Clear'), {
+  ssr: false,
+});
 
 export interface CustomInputProps<T = unknown> {
   formField: string;
@@ -84,8 +86,8 @@ export const FormBaseInput: React.FC<FormBaseInputProps> = ({
               <StartIcon color={color} />
             </IconButton>
           ),
-          endAdornment: clearable && (
-            <Fade in={!!field.value}>
+          endAdornment: (
+            <Fade in={!!field.value && clearable}>
               <IconButton color={color} onClick={onClearInput}>
                 <ClearIcon />
               </IconButton>

@@ -4,7 +4,7 @@ import type { DrawerProps, Theme } from '@mui/material';
 
 import SideNavHeader from './side-nav/side-nav-header';
 import SideNavLinkList from './side-nav/side-nav-link-list';
-import SideNavSignout from './side-nav/side-nav-signout';
+import { SideNavLogout } from './side-nav/side-nav-logout';
 import FlexSpacer from '~/components/common/flex-spacer';
 
 export interface DrawerSideNavProps {
@@ -40,7 +40,7 @@ const DrawerSideNav: React.FC<DrawerSideNavProps> = ({ open, onClose }) => {
       <SideNavLinkList />
       <FlexSpacer />
       <Divider />
-      <SideNavSignout signoutBtnText={t('sideNav.btn.signout')} />
+      <SideNavLogout logoutBtnText={t('sideNav.btn.signout')} />
     </Drawer>
   );
 };
