@@ -32,6 +32,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ formId }) => {
   const defaultPhoneInput = value?.phone ?? '';
   const defaultRememberMe = !!value?.remember_me;
 
+  // TODO: revalidate login process with sensitive data and security
   const onSubmit = handleSubmit(async () => {
     const { birthday, phone, remember_me } = getValues();
     const res = await signIn('credentials', {
@@ -42,7 +43,6 @@ export const LoginForm: React.FC<LoginFormProps> = ({ formId }) => {
 
     if (res) {
       if (res.ok) {
-        // TODO: revalidate login process with sensitive data and security
         // manage cache in localStorage;
         remember_me ? setValue(getValues()) : remove();
 
