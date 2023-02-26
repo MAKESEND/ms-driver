@@ -22,6 +22,7 @@ export enum ResourceUrls {
   DriverData,
 }
 
+// TODO: consider revise data structure and usage
 export const resourceUrls = {
   [ResourceUrls.DriverAuth]: `${
     apiHosts[ResourceHosts.MSApi]
