@@ -1,5 +1,5 @@
 export enum AuthProviders {
-  MS_DRIVER = 'MS_DRIVER',
+  MSDriver = 'MSDriver',
 }
 
 export type AuthProviderList = {
@@ -7,5 +7,5 @@ export type AuthProviderList = {
 };
 
 export const authProviders: AuthProviderList = {
-  [AuthProviders.MS_DRIVER]: 'credentials_ms_driver',
+  [AuthProviders.MSDriver]: 'credentials_ms_driver',
 };

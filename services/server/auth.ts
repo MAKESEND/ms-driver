@@ -1,10 +1,10 @@
 import axiosClient from 'axios';
 import type { AxiosError } from 'axios';
 
-import type { DriverData } from '~/types';
+import type { DriverData } from '~/constants/driver-data';
 import { httpClient } from '../api';
-import { resourceUrls, ResourceUrls } from '~/constants/resource-urls';
-import { envs, ServerEnvs } from '~/constants/envs';
+import { envs } from '~/constants/envs';
+import { resourceUrls } from '~/constants/resource-urls';
 
 import type {
   DriverAuthentication,
@@ -17,16 +17,16 @@ const serverHttpClient = clientInitiator.server.getHttpClient();
 
 const driverMgntHeaders = {
   'content-type': 'application/json',
-  apikey: envs[ServerEnvs.MS_DRIVER_MGMT],
+  apikey: envs.MS_DRIVER_MGMT,
 };
 
 export const authServices = {
   login: async (
-    credentials: Omit<DriverAuthentication, LoginFormFields.Remember>
+    credentials: Omit<DriverAuthentication, LoginFormFields.RememberMe>
   ) => {
     return await serverHttpClient
       .post<{ id: string }>(
-        resourceUrls[ResourceUrls.DriverAuth],
+        resourceUrls.DriverAuth,
         {
           dob: credentials.birthday,
           phone: credentials.phone,
@@ -42,7 +42,7 @@ export const authServices = {
   },
   getDriverData: async (driverId: string) => {
     return await serverHttpClient
-      .get<DriverData>(`${resourceUrls[ResourceUrls.DriverData]}/${driverId}`, {
+      .get<DriverData>(`${resourceUrls.DriverData}/${driverId}`, {
         headers: driverMgntHeaders,
       })
       .then(({ data }) => data ?? null)

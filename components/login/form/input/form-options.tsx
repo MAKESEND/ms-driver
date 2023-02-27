@@ -5,7 +5,7 @@ import { useFormContext } from 'react-hook-form';
 import { externalLinks, ExternalLinks } from '~/constants/external-links';
 import { LoginFormFields } from '~/components/login/login-page';
 import type { DriverAuthentication } from '~/components/login/login-page';
-import type { CustomInputProps } from './input/form-base-input';
+import type { CustomInputProps } from './form-base-input';
 import { useState } from 'react';
 
 const Box = styled(MuiBox)(({ theme }) => ({

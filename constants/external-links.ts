@@ -1,5 +1,5 @@
 export enum ExternalLinks {
-  MAKESEND_HOME,
+  MAKESEND_HOME = 'MAKESEND_HOME',
 }
 
 export type ExternalLinkList = {

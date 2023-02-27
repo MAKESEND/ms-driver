@@ -12,7 +12,7 @@ const CalendarMonthIcon = dynamic(
   () => import('@mui/icons-material/CalendarMonthOutlined')
 );
 
-export const InputBirthday: React.FC<
+export const FormInputBirthday: React.FC<
   CustomInputProps<DriverAuthentication[LoginFormFields.Birthday]>
 > = ({ formField, defaultValue }) => {
   const { t } = useTranslation('common');
@@ -63,4 +63,4 @@ export const InputBirthday: React.FC<
   );
 };
 
-export default InputBirthday;
+export default FormInputBirthday;

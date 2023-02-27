@@ -12,7 +12,7 @@ const PhoneIcon = dynamic(
   () => import('@mui/icons-material/LocalPhoneOutlined')
 );
 
-export const InputPhone: React.FC<
+export const FormInputPhone: React.FC<
   CustomInputProps<DriverAuthentication[LoginFormFields.Phone]>
 > = ({ formField, defaultValue }) => {
   const { t } = useTranslation('common');
@@ -54,4 +54,4 @@ export const InputPhone: React.FC<
   );
 };
 
-export default InputPhone;
+export default FormInputPhone;

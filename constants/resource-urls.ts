@@ -6,9 +6,9 @@ const domainType =
   publicRuntimeConfig.APP_ENV === 'production' ? 'asia' : 'ninja';
 
 export enum ResourceHosts {
-  MSApi,
-  MSMerchantApi,
-  MSLegacy,
+  MSApi = 'MSApi',
+  MSMerchantApi = 'MSMerchantApi',
+  MSLegacy = 'MSLegacy',
 }
 
 export const apiHosts = {
@@ -18,14 +18,12 @@ export const apiHosts = {
 };
 
 export enum ResourceUrls {
-  DriverAuth,
-  DriverData,
+  DriverAuth = 'DriverAuth',
+  DriverData = 'DriverData',
 }
 
 // TODO: consider revise data structure and usage
 export const resourceUrls = {
-  [ResourceUrls.DriverAuth]: `${
-    apiHosts[ResourceHosts.MSApi]
-  }/drivers/authorized`,
-  [ResourceUrls.DriverData]: `${apiHosts[ResourceHosts.MSApi]}/drivers`,
+  [ResourceUrls.DriverAuth]: `${apiHosts.MSApi}/drivers/authorized`,
+  [ResourceUrls.DriverData]: `${apiHosts.MSApi}/drivers`,
 };

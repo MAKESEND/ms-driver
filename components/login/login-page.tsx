@@ -12,13 +12,13 @@ const LoginBanner = dynamic(() => import('./login-banner'));
 export enum LoginFormFields {
   Phone = 'phone',
   Birthday = 'birthday',
-  Remember = 'remember_me',
+  RememberMe = 'rememberMe',
 }
 
 export interface DriverAuthentication {
   [LoginFormFields.Phone]: string;
   [LoginFormFields.Birthday]: string;
-  [LoginFormFields.Remember]: boolean;
+  [LoginFormFields.RememberMe]: boolean;
 }
 
 const formId = 'ms-driver-login';

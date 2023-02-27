@@ -1,18 +1,21 @@
 import NextAuth from 'next-auth';
 import type { AuthOptions, SessionStrategy } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import pick from 'lodash/pick';
 
 const sessionStrategy = 'jwt' as SessionStrategy;
 
 import { authServices } from '~/services/server/auth';
 
-import { envs, ServerEnvs } from '~/constants/envs';
-import { InAppLinks, inAppLinks } from '~/constants/side-nav-links';
-import { authProviders, AuthProviders } from '~/constants/auth-provider';
+import type { DriverBasicInfo } from '~/constants/driver-data';
+import { DriverBasicInfoKeys } from '~/constants/driver-data';
+import { envs } from '~/constants/envs';
+import { inAppLinks } from '~/constants/side-nav-links';
+import { authProviders } from '~/constants/auth-provider';
 
 const msDriverCredentials = CredentialsProvider({
   type: 'credentials',
-  id: authProviders[AuthProviders.MS_DRIVER],
+  id: authProviders.MSDriver,
   name: 'MS Driver Login',
   credentials: {
     phone: { label: 'Phone', type: 'text' },
@@ -21,32 +24,53 @@ const msDriverCredentials = CredentialsProvider({
   authorize: async (credentials, _req) => {
     if (!credentials) return null;
 
-    return await authServices
-      .login(credentials)
-      .then((res) => ({ id: res.id }));
+    const driverId = await authServices.login(credentials).then(({ id }) => id);
+
+    const driverData = await authServices.getDriverData(driverId);
+
+    const driverInfo = pick<typeof driverData>(
+      driverData,
+      Object.values(DriverBasicInfoKeys)
+    );
+
+    return { id: driverId, ...driverInfo };
   },
 });
 
+const oneDay = 60 * 60 * 24;
+
 export const authOptions: AuthOptions = {
   providers: [msDriverCredentials],
-  secret: envs[ServerEnvs.NEXTAUTH_SECRET],
+  secret: envs.NEXTAUTH_SECRET,
   session: {
     strategy: sessionStrategy,
-    maxAge: 60 * 60 * 24, // 1 day
+    maxAge: oneDay, // TODO: until midnight of the day
+  },
+  jwt: {
+    secret: envs.NEXTAUTH_SECRET,
   },
   pages: {
     // TODO: consider using recursion, curry, or linked list
-    signIn: `${inAppLinks[InAppLinks.AUTH]}/${inAppLinks[InAppLinks.LOGIN]}`,
+    signIn: `${inAppLinks.auth}/${inAppLinks.login}`,
   },
   // TODO: assign user data
   callbacks: {
-    jwt: async ({ token }) => {
+    jwt: async ({ token, user }) => {
+      if (user) {
+        token.user = user;
+      }
+
       return token;
     },
-    session: async ({ session }) => {
+    session: async ({ session, token }) => {
+      if (token) {
+        session.user = token.user as DriverBasicInfo;
+      }
+
       return session;
     },
   },
+  debug: envs.APP_ENV === 'development',
 };
 
 export default NextAuth(authOptions);

@@ -1,10 +1,31 @@
+export enum DriverBasicInfoKeys {
+  DriverId = 'driver_id',
+  Name = 'name',
+  Nickname = 'nickname',
+  Id = 'id',
+  Phone = 'phone',
+  ServiceArea = 'service_area',
+  ServiceAreaId = 'service_area_id',
+  Surname = 'surname',
+  PictureProfile = 'picture_profile',
+}
+
+export type DriverBasicInfo = Pick<
+  DriverData,
+  keyof Record<DriverBasicInfoKeys, string>
+>;
+
 export interface DriverData {
-  service_area: string[];
-  service_area_id: number[];
-  name: string;
-  surname: string;
+  [DriverBasicInfoKeys.DriverId]: string; // uuid
+  [DriverBasicInfoKeys.Name]: string;
+  [DriverBasicInfoKeys.Nickname]: string;
+  [DriverBasicInfoKeys.Phone]: string;
+  [DriverBasicInfoKeys.Id]: string; // uuid
+  [DriverBasicInfoKeys.ServiceArea]: string[];
+  [DriverBasicInfoKeys.ServiceAreaId]: number[];
+  [DriverBasicInfoKeys.Surname]: string;
+  [DriverBasicInfoKeys.PictureProfile]: string; // uri
   dob: string; // UTC timestamp
-  phone: string;
   email: string;
   gender: string;
   address: {
@@ -28,15 +49,12 @@ export interface DriverData {
   security_deposit: 0;
   driver_license_image: string; // URI
   id_card_image: string; // URI
-  picture_profile: string; // URI
   register_date: string; // UTC timestamp
   status: string;
   distance: number;
-  driver_id: string; // uuid
   total_parcel: number;
   valocity: number;
   volume: number;
-  nickname: string;
   checkin: string; // UTC timestamp
   address_id: {
     district: number;
@@ -47,5 +65,4 @@ export interface DriverData {
   hub_id: number;
   vehicle_type_id: number;
   type: string;
-  id: string; // uuid
 }

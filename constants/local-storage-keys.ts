@@ -1,5 +1,5 @@
 export enum LocalStorageKeys {
-  FormInputs,
+  FormInputs = 'FormInputs',
 }
 
 export type LocalStorageKeyList = {

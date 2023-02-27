@@ -1,21 +1,21 @@
-import { useFormContext } from 'react-hook-form';
-import { useLocalStorage } from 'react-use';
-import { Stack } from '@mui/material';
-import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
+import { signIn } from 'next-auth/react';
+import { useLocalStorage } from 'react-use';
+import { useFormContext } from 'react-hook-form';
+import { CircularProgress, Stack } from '@mui/material';
 
-import { inAppLinks, InAppLinks } from '~/constants/side-nav-links';
-import {
-  localStorageKeyList,
-  LocalStorageKeys,
-} from '~/constants/local-storage-keys';
-import { authProviders, AuthProviders } from '~/constants/auth-provider';
+import { inAppLinks } from '~/constants/side-nav-links';
+import { localStorageKeyList } from '~/constants/local-storage-keys';
+import { authProviders } from '~/constants/auth-provider';
 
 import type { DriverAuthentication } from '~/components/login/login-page';
-import { LoginFormFields } from '~/components/login/login-page';
-import { FormOptions } from '~/components/login/form/form-options';
-import { InputPhone } from '~/components/login/form/input/input-phone';
-import { InputBirthday } from '~/components/login/form/input/input-birthday';
+
+import dynamic from 'next/dynamic';
+const InputGroup = dynamic(
+  () =>
+    import('~/components/login/form/input-group').then((mod) => mod.InputGroup),
+  { ssr: false, loading: () => <CircularProgress /> }
+);
 
 export interface LoginFormProps {
   formId?: string;
@@ -24,19 +24,14 @@ export interface LoginFormProps {
 export const LoginForm: React.FC<LoginFormProps> = ({ formId }) => {
   const router = useRouter();
   const { handleSubmit, getValues } = useFormContext<DriverAuthentication>();
-  const [value, setValue, remove] = useLocalStorage<DriverAuthentication>(
-    localStorageKeyList[LocalStorageKeys.FormInputs]
+  const [, setValue, remove] = useLocalStorage<DriverAuthentication>(
+    localStorageKeyList.FormInputs
   );
-
-  // get default from cache
-  const defaultBirthdayInput = value?.birthday ?? '';
-  const defaultPhoneInput = value?.phone ?? '';
-  const defaultRememberMe = !!value?.remember_me;
 
   // TODO: revalidate login process with sensitive data and security
   const onSubmit = handleSubmit(async () => {
-    const { birthday, phone, remember_me } = getValues();
-    const res = await signIn(authProviders[AuthProviders.MS_DRIVER], {
+    const { birthday, phone, rememberMe } = getValues();
+    const res = await signIn(authProviders.MSDriver, {
       birthday,
       phone,
       redirect: false,
@@ -45,11 +40,9 @@ export const LoginForm: React.FC<LoginFormProps> = ({ formId }) => {
     if (res) {
       if (res.ok) {
         // manage cache in localStorage;
-        remember_me ? setValue(getValues()) : remove();
+        rememberMe ? setValue(getValues()) : remove();
 
-        router.replace(
-          (router.query?.from as string) ?? inAppLinks[InAppLinks.DASHBOARD]!
-        );
+        router.replace((router.query?.from as string) ?? inAppLinks.dashboard!);
       }
     }
     if (/2\d\d/g.test(String(res?.status ?? 500))) {
@@ -59,19 +52,14 @@ export const LoginForm: React.FC<LoginFormProps> = ({ formId }) => {
 
   return (
     <form id={formId} name={formId} onSubmit={onSubmit}>
-      <Stack justifyContent='center' alignItems='center' gap={1}>
-        <InputPhone
-          formField={LoginFormFields.Phone}
-          defaultValue={defaultPhoneInput}
-        />
-        <InputBirthday
-          formField={LoginFormFields.Birthday}
-          defaultValue={defaultBirthdayInput}
-        />
-        <FormOptions
-          formField={LoginFormFields.Remember}
-          defaultValue={defaultRememberMe}
-        />
+      <Stack
+        justifyContent='center'
+        alignItems='center'
+        gap={1}
+        minHeight={232}
+        maxHeight={250}
+      >
+        <InputGroup />
       </Stack>
     </form>
   );
