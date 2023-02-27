@@ -50,6 +50,11 @@ export const FormInputPhone: React.FC<
           },
         },
       }}
+      TextFieldSx={{
+        '.Mui-focused .MuiSvgIcon-root': {
+          color: (theme) => theme.palette.primary.main,
+        },
+      }}
     />
   );
 };

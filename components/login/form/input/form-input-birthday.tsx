@@ -58,6 +58,9 @@ export const FormInputBirthday: React.FC<
       TextFieldSx={{
         'input[type=date]::-webkit-inner-spin-button, input[type="date"]::-webkit-calendar-picker-indicator':
           { display: 'none', WebkitAppearance: 'none' },
+        '.Mui-focused .MuiSvgIcon-root': {
+          color: (theme) => theme.palette.primary.main,
+        },
       }}
     />
   );
