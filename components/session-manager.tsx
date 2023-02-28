@@ -21,11 +21,12 @@ const SessionManager: React.FC = () => {
   const isLoading = session.status === 'loading';
   const isAuthenticated = session.status === 'authenticated';
 
-  useEffect(() => {
-    const isOnPublicPath = pathCheck.test(router.asPath);
-    const shouldRedirectToLogin = !isAuthenticated && !isOnPublicPath;
-    const shouldRedirectInApp = isAuthenticated && isOnPublicPath;
+  const isOnPublicPath = pathCheck.test(router.asPath);
+  const shouldRedirectToLogin =
+    !isAuthenticated && !isOnPublicPath && !isLoading;
+  const shouldRedirectInApp = isAuthenticated && isOnPublicPath && !isLoading;
 
+  useEffect(() => {
     if (!initRef.current) {
       if (shouldRedirectToLogin) {
         router.replace({ pathname: loginPath, query: { from: router.asPath } });
@@ -34,7 +35,7 @@ const SessionManager: React.FC = () => {
       }
       initRef.current = true;
     }
-  }, [isAuthenticated, router]);
+  }, [isOnPublicPath, shouldRedirectInApp, shouldRedirectToLogin, router]);
 
   return (
     <PageLoader isLoading={isLoading}>
