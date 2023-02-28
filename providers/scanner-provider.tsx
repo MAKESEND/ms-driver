@@ -96,6 +96,8 @@ const reducer = (state: ScannerStore, { type, payload }: ScannerActions) => {
       return { ...state, isScanning: true };
     case ScannerActionTypes.CloseScanner:
       return { ...state, isScanning: false };
+    case ScannerActionTypes.ChangeCamera:
+      return { ...state, cameraInUse: payload };
     case ScannerActionTypes.SetScannerMode:
       return { ...state, config: { ...state.config, mode: payload } };
     case ScannerActionTypes.SetScannerTask:
