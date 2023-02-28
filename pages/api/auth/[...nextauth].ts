@@ -1,9 +1,18 @@
+import pick from 'lodash/pick';
 import NextAuth from 'next-auth';
+import { encode } from 'next-auth/jwt';
 import type { AuthOptions, SessionStrategy } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import pick from 'lodash/pick';
-
 const sessionStrategy = 'jwt' as SessionStrategy;
+
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+dayjs.extend(relativeTime);
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.tz.setDefault('Asia/Bangkok');
 
 import { authServices } from '~/services/server/auth';
 
@@ -44,16 +53,28 @@ export const authOptions: AuthOptions = {
   secret: envs.NEXTAUTH_SECRET,
   session: {
     strategy: sessionStrategy,
-    maxAge: oneDay, // TODO: until midnight of the day
+    maxAge: oneDay,
   },
   jwt: {
     secret: envs.NEXTAUTH_SECRET,
+    encode: async ({ token, secret, ...ctx }) => {
+      const tmr = dayjs()
+        .add(1, 'day')
+        .set('hours', 0)
+        .set('minutes', 0)
+        .set('seconds', 0);
+
+      const diff = dayjs(tmr).diff(dayjs());
+
+      const maxAge = Math.round(diff / 1000);
+
+      return await encode({ token, secret, maxAge });
+    },
   },
   pages: {
     // TODO: consider using recursion, curry, or linked list
     signIn: `${inAppLinks.auth}/${inAppLinks.login}`,
   },
-  // TODO: assign user data
   callbacks: {
     jwt: async ({ token, user }) => {
       if (user) {
@@ -65,6 +86,7 @@ export const authOptions: AuthOptions = {
     session: async ({ session, token }) => {
       if (token) {
         session.user = token.user as DriverBasicInfo;
+        session.expires = new Date((token.exp as number) * 1000).toISOString();
       }
 
       return session;
