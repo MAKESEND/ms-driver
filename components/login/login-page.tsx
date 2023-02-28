@@ -2,7 +2,7 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { Card, CardContent, CardActions, Stack } from '@mui/material';
 
 import type { LoginPageServerProps } from '~/pages/auth/login';
-import { LoginLayout } from './login-layout';
+import { LoginLayout } from '~/components/layouts/login-layout';
 import { LoginActions } from './login-actions';
 import { LoginForm } from './login-form';
 
