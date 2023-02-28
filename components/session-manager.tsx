@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { CircularProgress } from '@mui/material';
 
@@ -16,7 +16,6 @@ const pathCheck = new RegExp(loginPath);
 const SessionManager: React.FC = () => {
   const router = useRouter();
   const session = useSession();
-  const initRef = useRef<boolean>(false);
 
   const isLoading = session.status === 'loading';
   const isAuthenticated = session.status === 'authenticated';
@@ -27,13 +26,10 @@ const SessionManager: React.FC = () => {
   const shouldRedirectInApp = isAuthenticated && isOnPublicPath && !isLoading;
 
   useEffect(() => {
-    if (!initRef.current) {
-      if (shouldRedirectToLogin) {
-        router.replace({ pathname: loginPath, query: { from: router.asPath } });
-      } else if (shouldRedirectInApp) {
-        router.replace({ pathname: dashboardHref });
-      }
-      initRef.current = true;
+    if (shouldRedirectToLogin) {
+      router.replace({ pathname: loginPath, query: { from: router.asPath } });
+    } else if (shouldRedirectInApp) {
+      router.replace({ pathname: dashboardHref });
     }
   }, [isOnPublicPath, shouldRedirectInApp, shouldRedirectToLogin, router]);
 
