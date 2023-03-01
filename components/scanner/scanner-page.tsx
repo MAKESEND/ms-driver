@@ -1,9 +1,9 @@
-import { Stack, Skeleton } from '@mui/material';
+import { Skeleton } from '@mui/material';
 
 import { ScannerProvider } from '~/providers/scanner-provider';
 
 import { ScannerLayout } from '~/components/scanner/scanner-layout';
-import { ScannerCameraLayout } from '~/components/scanner/camera/camera-layout';
+import { CameraLayout } from '~/components/scanner/camera/camera-layout';
 import { ScannerConfig } from '~/components/scanner/config/scanner-config';
 
 import dynamic from 'next/dynamic';
@@ -21,13 +21,13 @@ const ScannerCamera = dynamic(
 
 export const ScannerPage: React.FC = () => {
   return (
-    <ScannerProvider>
-      <ScannerLayout>
+    <ScannerLayout>
+      <ScannerProvider>
         <ScannerConfig />
-        <ScannerCameraLayout>
+        <CameraLayout>
           <ScannerCamera />
-        </ScannerCameraLayout>
-      </ScannerLayout>
-    </ScannerProvider>
+        </CameraLayout>
+      </ScannerProvider>
+    </ScannerLayout>
   );
 };

@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 
-export const ScannerCameraLayout: React.FC<React.PropsWithChildren> = ({
+export const CameraLayout: React.FC<React.PropsWithChildren> = ({
   children,
 }) => {
   return (

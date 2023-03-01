@@ -1,4 +1,4 @@
-import { createContext, useContext, useReducer } from 'react';
+import { createContext, useContext, useReducer, useRef } from 'react';
 
 export enum ScannerTask {
   Scan = 'scan',
@@ -22,9 +22,14 @@ export enum ConfigKeys {
   Mode = 'mode',
 }
 
+export interface ScannedResult {
+  text: string;
+  scannedAt: number;
+}
+
 export type ScannerStore = {
   isScanning: boolean;
-  cameraInUse: string;
+  deviceId: string;
   config: {
     [ConfigKeys.Task]: `${ScannerTask}`;
     [ConfigKeys.Mode]: `${ScannerMode}`;
@@ -82,10 +87,11 @@ export type ScannerActions =
 export const ScannerContext = createContext<{
   state: ScannerStore;
   dispatch: React.Dispatch<ScannerActions>;
+  scannedResultRef: React.MutableRefObject<ScannedResult[]>;
 } | null>(null);
 
 const defaultScanner: ScannerStore = {
-  cameraInUse: '',
+  deviceId: '',
   isScanning: false,
   config: { task: 'scan', mode: 'single' },
 };
@@ -97,7 +103,7 @@ const reducer = (state: ScannerStore, { type, payload }: ScannerActions) => {
     case ScannerActionTypes.CloseScanner:
       return { ...state, isScanning: false };
     case ScannerActionTypes.ChangeCamera:
-      return { ...state, cameraInUse: payload };
+      return { ...state, deviceId: payload };
     case ScannerActionTypes.SetScannerMode:
       return { ...state, config: { ...state.config, mode: payload } };
     case ScannerActionTypes.SetScannerTask:
@@ -114,10 +120,11 @@ const reducer = (state: ScannerStore, { type, payload }: ScannerActions) => {
 export const ScannerProvider: React.FC<React.PropsWithChildren> = ({
   children,
 }) => {
+  const scannedResultRef = useRef<ScannedResult[]>([]);
   const [state, dispatch] = useReducer(reducer, defaultScanner);
 
   return (
-    <ScannerContext.Provider value={{ state, dispatch }}>
+    <ScannerContext.Provider value={{ state, dispatch, scannedResultRef }}>
       {children}
     </ScannerContext.Provider>
   );

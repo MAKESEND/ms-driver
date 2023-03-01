@@ -1,23 +1,22 @@
 import { Stack } from '@mui/material';
 
-import { FlexFullHeightLayout } from '~/components/layouts/flex-full-height-layout';
-
 export const ScannerLayout: React.FC<React.PropsWithChildren> = ({
   children,
 }) => {
   return (
-    <FlexFullHeightLayout>
-      <Stack
-        sx={{
-          px: 2,
-          width: '100%',
-          justifyContent: 'center',
-          alignItems: 'center',
-          maxWidth: (theme) => theme.layout.size.portMaxWidth,
-        }}
-      >
-        {children}
-      </Stack>
-    </FlexFullHeightLayout>
+    <Stack
+      gap={4}
+      alignItems='center'
+      justifyContent='center'
+      sx={{
+        px: 3,
+        mt: 4,
+        mx: 'auto',
+        width: '100%',
+        maxWidth: (theme) => theme.layout.size.portMaxWidth,
+      }}
+    >
+      {children}
+    </Stack>
   );
 };
