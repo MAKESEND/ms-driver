@@ -1,10 +1,13 @@
 import Link from 'next/link';
+import { useEffect } from 'react';
 import { NextSeo } from 'next-seo';
+import { useRouter } from 'next/router';
+import { useSession } from 'next-auth/react';
 import type { GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Button, Stack, Typography } from '@mui/material';
 
-import { inAppLinks, InAppLinks } from '~/constants/side-nav-links';
+import { inAppLinks } from '~/constants/side-nav-links';
 import type { NextPageWithLayout } from '~/pages/_app';
 import DrawerLayout from '~/components/layouts/drawer-layout';
 
@@ -17,6 +20,15 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 };
 
 const NotFoundPage: NextPageWithLayout = () => {
+  const router = useRouter();
+  const { status } = useSession();
+
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      router.push(inAppLinks.login?.href!);
+    }
+  }, [router, status]);
+
   return (
     <>
       <NextSeo title='Not found' />
@@ -25,11 +37,7 @@ const NotFoundPage: NextPageWithLayout = () => {
       >
         <Stack gap={2}>
           <Typography variant='h1'>404 Not Found</Typography>
-          <Link
-            passHref
-            legacyBehavior
-            href={inAppLinks[InAppLinks.DASHBOARD]?.href!}
-          >
+          <Link passHref legacyBehavior href={inAppLinks.dashboard?.href!}>
             <Button variant='contained' fullWidth>
               Go Dashboard
             </Button>
