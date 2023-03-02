@@ -13,7 +13,7 @@ export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
     },
     redirect: {
       destination: inAppLinks.dashboard?.href!,
-      permenant: false,
+      permanent: false,
     },
   };
 };
