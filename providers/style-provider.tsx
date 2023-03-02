@@ -3,7 +3,7 @@ import { ThemeProvider, CssBaseline } from '@mui/material';
 
 import { theme } from '~/styles/theme';
 
-const StyleProvider: React.FC<PropsWithChildren> = ({ children }) => {
+export const StyleProvider: React.FC<PropsWithChildren> = ({ children }) => {
   return (
     <>
       <CssBaseline />
@@ -11,5 +11,3 @@ const StyleProvider: React.FC<PropsWithChildren> = ({ children }) => {
     </>
   );
 };
-
-export default StyleProvider;
