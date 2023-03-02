@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
-import PageLoader from './page-loader';
+import PageLoader from '~/components/common/loader/page-loader';
 
 export const RouteLoader: React.FC<React.PropsWithChildren> = () => {
   const { events } = useRouter();

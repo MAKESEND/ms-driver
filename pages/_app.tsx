@@ -10,9 +10,10 @@ import ErrorBoundary from '~/components/common/error-boundary';
 
 import dynamic from 'next/dynamic';
 const CoreProvider = dynamic(() => import('~/providers/core-provider'));
-const SessionManager = dynamic(() => import('~/components/session-manager'));
-const RouteLoader = dynamic(
-  () => import('~/components/common/loader/route-loader')
+const AppControllers = dynamic(() =>
+  import('~/components/app-controllers/controllers').then(
+    (mod) => mod.AppControllers
+  )
 );
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
@@ -33,8 +34,7 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
         <SessionProvider session={pageProps.session}>
           {getLayout(
             <ErrorBoundary>
-              <SessionManager />
-              <RouteLoader />
+              <AppControllers />
               <Component {...pageProps} />
             </ErrorBoundary>
           )}

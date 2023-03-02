@@ -13,7 +13,7 @@ const loginHref = inAppLinks[InAppLinks.AUTH]?.nested?.[InAppLinks.LOGIN]?.href;
 const loginPath = `${authHref}${loginHref}`;
 const pathCheck = new RegExp(loginPath);
 
-const SessionManager: React.FC = () => {
+export const SessionManager: React.FC = () => {
   const router = useRouter();
   const session = useSession();
 
@@ -40,4 +40,3 @@ const SessionManager: React.FC = () => {
   );
 };
 
-export default SessionManager;
