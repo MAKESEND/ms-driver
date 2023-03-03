@@ -1,11 +1,14 @@
 import {
   AppBar as MuiAppBar,
-  Toolbar,
+  Box,
   IconButton,
   styled,
+  Toolbar,
 } from '@mui/material';
 
-interface AppBarProps {
+import { Notification } from '~/components/common/notification';
+
+export interface AppBarProps {
   open?: boolean;
   isMobile?: boolean;
 }
@@ -50,6 +53,8 @@ const DrawerTopNav: React.FC<{
         >
           <MenuIcon />
         </IconButton>
+        <Box flexGrow={1} />
+        <Notification />
       </Toolbar>
     </AppBar>
   );
