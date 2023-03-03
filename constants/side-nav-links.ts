@@ -16,6 +16,7 @@ export type CustomLink = {
   label: string;
   href?: string;
   disabled?: boolean;
+  parent?: string;
   nested?: CustomLinkList;
 };
 
@@ -46,12 +47,14 @@ export const inAppLinks: CustomLinkList = {
         label: 'pickup',
         href: '/pickup',
         disabled: false,
+        parent: InAppLinks.TASKS,
       },
       [InAppLinks.DROPOFF]: {
         id: InAppLinks.DROPOFF,
         label: 'dropoff',
         href: '/dropoff',
         disabled: false,
+        parent: InAppLinks.TASKS,
       },
     },
   },
@@ -89,6 +92,7 @@ export const inAppLinks: CustomLinkList = {
         label: 'login',
         href: '/login',
         disabled: false,
+        parent: InAppLinks.AUTH,
       },
     },
   },

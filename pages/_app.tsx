@@ -9,6 +9,7 @@ import { trpc } from '~/utils/trpc';
 import ErrorBoundary from '~/components/common/error-boundary';
 
 import dynamic from 'next/dynamic';
+import { MockDataProvider } from '~/providers/mock-data-provider';
 const CoreProvider = dynamic(() => import('~/providers/core-provider'));
 const AppControllers = dynamic(() =>
   import('~/components/app-controllers/controllers').then(
@@ -32,12 +33,14 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
       <DefaultSeo {...DefaultSeoConfig} />
       <CoreProvider>
         <SessionProvider session={pageProps.session}>
-          {getLayout(
-            <ErrorBoundary>
-              <AppControllers />
-              <Component {...pageProps} />
-            </ErrorBoundary>
-          )}
+          <MockDataProvider>
+            {getLayout(
+              <ErrorBoundary>
+                <AppControllers />
+                <Component {...pageProps} />
+              </ErrorBoundary>
+            )}
+          </MockDataProvider>
         </SessionProvider>
       </CoreProvider>
     </>
