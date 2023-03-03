@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import type { UseControllerProps, FieldValues } from 'react-hook-form';
+import { UseControllerProps, FieldValues } from 'react-hook-form';
 import { useFormContext, useController } from 'react-hook-form';
 import type { IconButtonProps, SxProps, Theme } from '@mui/material';
 import { IconButton, Fade, TextField } from '@mui/material';
@@ -50,7 +50,7 @@ export const FormBaseInput: React.FC<FormBaseInputProps> = ({
   TextFieldSx,
 }: FormBaseInputProps) => {
   const inputRef = useRef<HTMLInputElement>();
-  const { control, resetField } = useFormContext();
+  const { control, setValue } = useFormContext();
   const { field, fieldState } = useController({
     ...formControllerConfig,
     control,
@@ -59,7 +59,9 @@ export const FormBaseInput: React.FC<FormBaseInputProps> = ({
   const isError = !!fieldState.error;
   const color = isError ? 'error' : undefined;
 
-  const onClearInput = () => resetField(formField);
+  const onClearInput = () => {
+    setValue(formField, '');
+  };
 
   return (
     <InputLayout htmlFor={formField}>

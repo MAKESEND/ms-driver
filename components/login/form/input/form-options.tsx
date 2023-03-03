@@ -19,7 +19,7 @@ const Box = styled(MuiBox)(({ theme }) => ({
 }));
 
 export const FormOptions: React.FC<
-  CustomInputProps<DriverAuthentication[LoginFormFields.Remember]>
+  CustomInputProps<DriverAuthentication[LoginFormFields.RememberMe]>
 > = ({ formField, defaultValue = false }) => {
   const { t } = useTranslation('common');
   const rememberMeLabel = t('hint.rememberMe');

@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { useLocalStorage } from 'react-use';
 import { Fade } from '@mui/material';
 
@@ -14,7 +15,6 @@ export const InputGroup: React.FC = () => {
     localStorageKeyList.FormInputs
   );
 
-  // get default from cache
   const defaultBirthdayInput = value?.birthday ?? '';
   const defaultPhoneInput = value?.phone ?? '';
   const defaultRememberMe = !!value?.rememberMe;

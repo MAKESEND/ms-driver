@@ -4,8 +4,10 @@ import type {
   LoginFormFields,
   DriverAuthentication,
 } from '~/components/login/login-page';
-import { FormBaseInput } from '~/components/login/form/input/form-base-input';
-import type { CustomInputProps } from '~/components/login/form/input/form-base-input';
+import {
+  FormBaseInput,
+  type CustomInputProps,
+} from '~/components/login/form/input/form-base-input';
 
 import dynamic from 'next/dynamic';
 const CalendarMonthIcon = dynamic(

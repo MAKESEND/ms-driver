@@ -33,9 +33,13 @@ const menuProps: {
   },
 };
 
-export const Notification: React.FC = () => {
+export const Notification: React.FC<React.PropsWithChildren> = ({
+  children,
+}) => {
   const [open, setOpen] = useState<boolean>(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+  const Icon = children ?? <NotificationsIcon />;
 
   // TODO: remove mock notification updates
   const updates: UpdateItemProps[] = [];
@@ -54,7 +58,7 @@ export const Notification: React.FC = () => {
     <>
       <IconButton aria-label='notification' color='inherit' onClick={onOpen}>
         <Badge badgeContent={updates.length} color='error'>
-          <NotificationsIcon />
+          {Icon}
         </Badge>
       </IconButton>
       <Menu {...menuProps} open={open} onClose={onClose} anchorEl={anchorEl}>
