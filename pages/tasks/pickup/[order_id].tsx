@@ -1,29 +1,30 @@
 import { NextSeo } from 'next-seo';
-import type { GetStaticProps } from 'next';
+import type { GetServerSideProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import type { NextPageWithLayout } from '~/pages/_app';
 import DrawerLayout from '~/components/layouts/drawer-layout';
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
   return {
     props: {
-      ...(locale && (await serverSideTranslations(locale, ['common']))),
+      ...(locale &&
+        (await serverSideTranslations(locale, ['common', 'tasks']))),
     },
   };
 };
 
-const PickupPage: NextPageWithLayout = () => {
+const PickupTaskPage: NextPageWithLayout = () => {
   return (
     <>
       <NextSeo title='Pickup' />
-      Pickup
+      Pickup task
     </>
   );
 };
 
-PickupPage.getLayout = (page) => {
+PickupTaskPage.getLayout = (page) => {
   return <DrawerLayout>{page}</DrawerLayout>;
 };
 
-export default PickupPage;
+export default PickupTaskPage;

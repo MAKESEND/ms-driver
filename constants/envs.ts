@@ -4,6 +4,7 @@ const { publicRuntimeConfig, serverRuntimeConfig } = getConfig();
 
 export enum PublicEnvs {
   APP_ENV = 'APP_ENV',
+  IS_DEMO = 'IS_DEMO',
   NEXTAUTH_URL = 'NEXTAUTH_URL',
 }
 

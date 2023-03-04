@@ -2,12 +2,13 @@
 const { i18n } = require('./next-i18next.config');
 const { version } = require('./package.json');
 
-const PORT = process.env.PORT;
-const NEXTAUTH_URL = process.env.NEXTAUTH_URL;
-const NEXTAUTH_SECRET = process.env.NEXTAUTH_SECRET;
 const APP_ENV = process.env.APP_ENV;
+const IS_DEMO = process.env.IS_DEMO;
 const MS_DRIVER_MGMT = process.env.MS_DRIVER_MGMT;
 const MS_UPDATE_PARCEL_STATUS = process.env.MS_UPDATE_PARCEL_STATUS;
+const NEXTAUTH_URL = process.env.NEXTAUTH_URL;
+const NEXTAUTH_SECRET = process.env.NEXTAUTH_SECRET;
+const PORT = process.env.PORT;
 
 const nextConfig = {
   experimental: {
@@ -20,14 +21,15 @@ const nextConfig = {
   reactStrictMode: true,
   publicRuntimeConfig: {
     APP_ENV,
-    version,
+    IS_DEMO: IS_DEMO === 'true',
     NEXTAUTH_URL,
+    version,
   },
   serverRuntimeConfig: {
-    PORT,
-    NEXTAUTH_SECRET,
     MS_DRIVER_MGMT,
     MS_UPDATE_PARCEL_STATUS,
+    NEXTAUTH_SECRET,
+    PORT,
   },
   async rewrites() {
     return [

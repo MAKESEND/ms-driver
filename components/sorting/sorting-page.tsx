@@ -6,12 +6,12 @@ import { Parcel } from '~/types';
 import { ParcelCard } from '~/components/sorting/parcel-card';
 import { SortFilter } from '~/components/sorting/sorting-filter';
 
-// TODO: remove mock data
 import { useMockData } from '~/providers/mock-data-provider';
 
 export const Sorting: React.FC = () => {
-  const mock = useMockData();
-  const sortingList = mock?.parcelsToSort ?? [];
+  // TODO: remove mock data
+  const { mockData } = useMockData();
+  const sortingList = mockData?.parcelsToSort ?? [];
 
   const [parcelToSort, setParcelToSort] = useState<Parcel | null>(null);
 

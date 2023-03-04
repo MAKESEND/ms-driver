@@ -1,11 +1,6 @@
 import { createContext, useContext, useReducer, useRef } from 'react';
 
-export enum ScannerTask {
-  Scan = 'scan',
-  Pickup = 'pickup',
-  Dropoff = 'dropoff',
-  Sorting = 'sorting',
-}
+import { TaskTypes } from '~/constants/tasks';
 
 export enum ScannerMode {
   Single = 'single',
@@ -31,7 +26,7 @@ export type ScannerStore = {
   isScanning: boolean;
   deviceId: string;
   config: {
-    [ConfigKeys.Task]: `${ScannerTask}`;
+    [ConfigKeys.Task]: `${TaskTypes}`;
     [ConfigKeys.Mode]: `${ScannerMode}`;
   };
 };
@@ -58,7 +53,7 @@ type ScannerSetModeAction = {
 
 type ScannerSetTaskAction = {
   type: ScannerActionTypes.SetScannerTask;
-  payload: `${ScannerTask}`;
+  payload: `${TaskTypes}`;
 };
 
 type ScannerSetConfigAction = {

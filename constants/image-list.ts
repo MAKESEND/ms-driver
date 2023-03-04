@@ -1,6 +1,7 @@
 import { ImageProps as ImageLegacyProps } from 'next/legacy/image';
 export enum InAppImages {
   MSLogo = 'MSLogo',
+  FAQ = 'FAQ',
 }
 
 export type ImageList = {
@@ -14,5 +15,12 @@ export const inAppImages: ImageList = {
     alt: 'ms_logo',
     width: 448,
     height: 114,
+  },
+  [InAppImages.FAQ]: {
+    src: '/imgs/faq_primary_blue.svg',
+    alt: 'faq',
+    width: 250,
+    height: 250,
+    layout: 'intrinsic',
   },
 };

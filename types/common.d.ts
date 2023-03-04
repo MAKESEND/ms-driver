@@ -1,4 +1,4 @@
-export type CallbackFunction = () => void | Promise<void>;
+export type CallbackFunction = (e: any) => void | Promise<void>;
 
 type TPropsWithOnClickCallback<T = unknown> = T & {
   onClick?: CallbackFunction;
