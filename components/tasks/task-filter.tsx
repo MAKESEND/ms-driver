@@ -102,7 +102,7 @@ export const TaskFilter: React.FC<TaskFilterProps & { label?: string }> = ({
   const onInputClear = () => setSearchVal('');
 
   const onInputSearch = (event: React.ChangeEvent<HTMLInputElement>) =>
-    setSearchVal(event.target.value);
+    setSearchVal(event.target.value.trim());
 
   const EndAdornment = searchVal ? <ClearIcon onClick={onInputClear} /> : null;
 
