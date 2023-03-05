@@ -9,3 +9,15 @@ export enum ParcelSizes {
   S180 = 's180',
   S200 = 's200',
 }
+
+export enum ParcelStatus {
+  Pending = 'Pending',
+  ReadyToPick = 'Ready to pick',
+  PickedUp = 'Picked up',
+  DropAtBranch = 'Drop at branch',
+  InHub = 'In hub',
+  Rotating = 'Rotating',
+  Sorted = 'Sorted',
+  Delivering = 'Delivering',
+  Delivered = 'Delivered',
+}

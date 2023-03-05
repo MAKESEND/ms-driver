@@ -1,8 +1,8 @@
 import { createContext, useContext } from 'react';
 
 // TODO: create either pickup or dropoff task context
-
-type Tasks = any[];
+type Task = any;
+type Tasks = Task[];
 
 export const TasksContext = createContext<
   [tasks: Tasks, setTasks: React.Dispatch<React.SetStateAction<Tasks>>] | null

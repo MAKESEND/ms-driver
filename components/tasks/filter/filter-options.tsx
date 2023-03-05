@@ -1,15 +1,24 @@
 import Link from 'next/link';
+import { useState } from 'react';
 import { useTranslation } from 'next-i18next';
-import { Button as MuiButton, Menu, styled } from '@mui/material';
-
-import { FilterOption } from './filter-option';
+import {
+  Button as MuiButton,
+  Menu,
+  styled,
+  Stack,
+  Typography,
+} from '@mui/material';
 
 import type { TaskTypes } from '~/constants/tasks';
 import { inAppLinks } from '~/constants/side-nav-links';
 
+import type { TaskFilterProps } from '~/components/tasks/task-filter';
+import {
+  FilterOption,
+  type FilterOptionProps,
+} from '~/components/tasks/filter/filter-option';
+
 import dynamic from 'next/dynamic';
-import { CallbackFunction } from '~/types';
-import React from 'react';
 const FilterIcon = dynamic(
   () => import('@mui/icons-material/FilterAltOutlined')
 );
@@ -27,39 +36,41 @@ Button.defaultProps = {
   size: 'small',
 };
 
-export interface FilterOptionsProps<T, R> {
-  anchorEl?: HTMLElement;
-  filterOptions: T;
+export interface FilterOptionsProps {
+  filterOptions: TaskFilterProps['filterOptions'];
   label?: string;
-  onCloseMenu: CallbackFunction;
-  onOpenMenu: CallbackFunction;
   scan?: boolean;
-  selectedOption: R;
-  setSelectedOption: React.Dispatch<React.SetStateAction<R>>;
+  selectedOptions: string[];
+  setSelectedOptions: React.Dispatch<React.SetStateAction<string[]>>;
   taskType: `${TaskTypes}`;
 }
 
-export const FilterOptions = <T, R>({
-  anchorEl,
+export const FilterOptions = ({
   filterOptions,
   label,
-  onCloseMenu,
-  onOpenMenu,
   scan = true,
-  selectedOption,
-  setSelectedOption,
+  selectedOptions,
+  setSelectedOptions,
   taskType,
-}: FilterOptionsProps<T, R>) => {
+}: FilterOptionsProps) => {
   const { t } = useTranslation('tasks');
 
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const open = !!anchorEl;
+
+  const onOpenMenu = (event: React.MouseEvent<HTMLElement>) =>
+    setAnchorEl(event.currentTarget);
+  const onCloseMenu = () => setAnchorEl(null);
 
   const Label = (option: string) => (label ? `${label} ${option}` : t(option));
 
   const Scanner = scan ? (
     <Link
-      href={{ pathname: inAppLinks.scanner?.href!, query: { task: taskType } }}
       passHref
+      href={{
+        pathname: inAppLinks.scanner?.href!,
+        query: { task: taskType },
+      }}
     >
       <Button>
         <QrScannerIcon />
@@ -72,17 +83,33 @@ export const FilterOptions = <T, R>({
       <Button onClick={onOpenMenu}>
         <FilterIcon />
       </Button>
-      <Menu anchorEl={anchorEl} open={open} onClose={onCloseMenu}>
-        {filterOptions.map((option: any) => {
-          const key = String(option);
+      <Menu open={open} onClose={onCloseMenu} anchorEl={anchorEl}>
+        {Object.entries(filterOptions).map(([key, values]) => {
           return (
-            <FilterOption
-              key={key}
-              option={option}
-              selectedOption={selectedOption}
-              setSelectedOption={setSelectedOption}
-              label={Label(key)}
-            />
+            <Stack key={key}>
+              <Typography
+                fontSize={16}
+                variant='secondary'
+                sx={{
+                  ml: 2,
+                  ['&::first-letter']: { textTransform: 'capitalize' },
+                }}
+              >
+                {label}
+              </Typography>
+              {values.map((option: FilterOptionProps['option']) => {
+                const key = String(option);
+                return (
+                  <FilterOption
+                    key={key}
+                    option={key}
+                    selectedOptions={selectedOptions}
+                    setSelectedOptions={setSelectedOptions}
+                    Label={Label(key)}
+                  />
+                );
+              })}
+            </Stack>
           );
         })}
       </Menu>
