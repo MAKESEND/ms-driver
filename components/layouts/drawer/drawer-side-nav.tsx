@@ -5,7 +5,7 @@ import type { DrawerProps, Theme } from '@mui/material';
 import SideNavHeader from './side-nav/side-nav-header';
 import SideNavLinkList from './side-nav/side-nav-link-list';
 import { SideNavLogout } from './side-nav/side-nav-logout';
-import FlexSpacer from '~/components/common/flex-spacer';
+import FlexSpacer from '~/components/common/layout/flex-spacer';
 
 export interface DrawerSideNavProps {
   open: boolean;

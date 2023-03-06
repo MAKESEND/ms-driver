@@ -23,6 +23,9 @@ const NotFoundPage: NextPageWithLayout = () => {
   const router = useRouter();
   const { status } = useSession();
 
+  const message = '404 Not Found';
+  const btnText = 'Go Dashboard';
+
   useEffect(() => {
     if (status === 'unauthenticated') {
       router.push(inAppLinks.login?.href!);
@@ -32,14 +35,12 @@ const NotFoundPage: NextPageWithLayout = () => {
   return (
     <>
       <NextSeo title='Not found' />
-      <Stack
-        sx={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center' }}
-      >
+      <Stack flexGrow={1} justifyContent='center' alignItems='center'>
         <Stack gap={2}>
-          <Typography variant='h1'>404 Not Found</Typography>
+          <Typography variant='h1'>{message}</Typography>
           <Link passHref legacyBehavior href={inAppLinks.dashboard?.href!}>
             <Button variant='contained' fullWidth>
-              Go Dashboard
+              {btnText}
             </Button>
           </Link>
         </Stack>

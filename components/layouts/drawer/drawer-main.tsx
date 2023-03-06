@@ -9,6 +9,7 @@ const DrawerMain = styled(Stack, {
 })<DrawerMainProps>(({ theme, open = false }) => ({
   flexGrow: 1,
   overflowY: 'auto',
+  position: 'relative',
   transition: theme.transitions.create('margin', {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,

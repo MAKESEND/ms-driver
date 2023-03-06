@@ -1,13 +1,9 @@
-import { Box, Stack, styled, Typography as MuiTypography } from '@mui/material';
+import { Stack, styled, Typography as MuiTypography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+
 import { externalLinks } from '~/constants/external-links';
 
-const Row = styled(Box)(() => ({
-  width: '100%',
-  display: 'inline-flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-}));
+import { Row } from '~/components/common/layout/row';
 
 const Typography = styled(MuiTypography)(() => ({
   textAlign: 'start',

@@ -23,7 +23,7 @@ export const PickupTaskCardHeader: React.FC<PickupTaskCardHeaderProps> = ({
       }}
     >
       <Typography variant='h3'>{cardHeader}</Typography>
-      <Button variant='outlined' onClick={onClick}>
+      <Button variant='outlined' disabled onClick={onClick}>
         {skipBtnText}
       </Button>
     </Box>

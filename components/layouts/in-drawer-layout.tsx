@@ -1,8 +1,8 @@
-import { Stack } from '@mui/material';
+import { Stack, type SxProps, type Theme } from '@mui/material';
 
-export const InDrawerLayout: React.FC<React.PropsWithChildren> = ({
-  children,
-}) => {
+export const InDrawerLayout: React.FC<
+  React.PropsWithChildren<{ sx?: SxProps<Theme> }>
+> = ({ children, sx }) => {
   return (
     <Stack
       sx={{
@@ -10,6 +10,7 @@ export const InDrawerLayout: React.FC<React.PropsWithChildren> = ({
         mx: 'auto',
         width: '100%',
         maxWidth: (theme) => theme.layout.size.portMaxWidth,
+        ...sx,
       }}
     >
       {children}
