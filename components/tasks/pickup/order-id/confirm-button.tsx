@@ -23,14 +23,13 @@ export const ConfirmButton: React.FC<ConfirmButtonProps> = ({
   return (
     <Box
       sx={{
-        m: 2,
+        p: 2,
         mx: 'auto',
         width: '100%',
         position: 'absolute',
         bottom: 16,
         left: '50%',
         transform: 'translate(-50%)',
-        bgcolor: (theme) => theme.palette.common.white,
         zIndex: (theme) => theme.zIndex.drawer,
         maxWidth: (theme) => theme.layout.size.btnMaxWidth,
       }}
