@@ -14,7 +14,13 @@ const DrawerLayout: React.FC<
   const closeDrawer = () => setOpen(false);
 
   return (
-    <Box sx={{ display: 'flex', height: '100dvh' }}>
+    <Box
+      sx={{
+        display: 'flex',
+        height: '100dvh',
+        ['@supports not (height: 100dvh)']: { height: '100vh' },
+      }}
+    >
       <DrawerSideNav open={open} onClose={closeDrawer} />
       <DrawerTopNav open={open} toggleDrawer={setOpen} />
       <DrawerMain open={open}>
