@@ -9,6 +9,9 @@ import {
   PickupOrderStateActionTypes,
 } from '~/providers/pickup-order-state-provider';
 
+import { TaskTypes } from '~/constants/tasks';
+import { inAppLinks } from '~/constants/side-nav-links';
+
 import { InDrawerLayout } from '~/components/layouts/in-drawer-layout';
 import { ParcelList } from '~/components/tasks/pickup/order-id/parcel-list';
 import { ConfirmButton } from '~/components/tasks/pickup/order-id/confirm-button';
@@ -33,7 +36,7 @@ export const PickupOrderPage: React.FC<PickupOrderPageProps> = ({
   const parcelsByOrderId = mockData?.parcelsByOrderId ?? [];
 
   useEffect(() => {
-    // this will cause unnecessary re-render
+    // this causes unnecessary re-render
     // TODO: refactor when fetching data from real data endpoint
     if (mockData?.parcelsByOrderId) {
       dispatch({
@@ -48,12 +51,20 @@ export const PickupOrderPage: React.FC<PickupOrderPageProps> = ({
     }
   }, [mockData?.parcelsByOrderId]);
 
+  const scannerHref = `${inAppLinks.scanner?.href}?task=${TaskTypes.Pickup}`;
+
   const isUploadingImg = false;
+  // TODO: update constraint on select all checkbox
+  // this should be synced and affect checkbox in each parcel card in the list
+  const disableSelector = isLoadingList;
+
+  // TODO: reconfirm business logic and set constraint on confirm button
   const disableConfirmBtn =
     isUploadingImg || isLoadingList || !state.selectedParcels.length;
 
   const selectionState = `(${state.selectedParcels.length}/${parcelsByOrderId.length})`;
 
+  // TODO: business logic to update delivery status
   const onConfirmPickup = async () => {};
 
   return (
@@ -61,7 +72,7 @@ export const PickupOrderPage: React.FC<PickupOrderPageProps> = ({
       <InDrawerLayout sx={{ pb: 12, height: '100%', overflowY: 'auto' }}>
         <Stack gap={2} sx={{ py: 1 }} alignItems='center'>
           <TaskMedia disabled={isUploadingImg} />
-          <TaskSelector />
+          <TaskSelector href={scannerHref} disabled={disableSelector} />
         </Stack>
         <Divider />
         <ParcelList parcels={state.filteredParcels} />

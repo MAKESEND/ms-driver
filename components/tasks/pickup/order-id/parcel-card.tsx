@@ -22,6 +22,10 @@ export const PickupParcelCard: React.FC<PickupParcelCardProps> = ({
   const { state, dispatch } = usePickupOrderState();
   const [checked, setChecked] = useState<boolean>(false);
 
+  // TODO: adding constraint to prevent user from selecting
+  // this state needs to sync with select all
+  const disabled = false;
+
   useEffect(() => {
     const isSelected = state.selectedParcels.includes(parcel.shipmentID);
     setChecked(isSelected);
@@ -44,6 +48,7 @@ export const PickupParcelCard: React.FC<PickupParcelCardProps> = ({
   return (
     <ListItem disableGutters>
       <ListItemButton
+        disabled={disabled}
         disableGutters
         onClick={onClick}
         sx={{

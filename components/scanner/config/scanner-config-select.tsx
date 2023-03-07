@@ -1,10 +1,11 @@
 import { useTranslation } from 'next-i18next';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 
+import { TaskTypes } from '~/constants/tasks';
+
 import {
   ConfigKeys,
   ScannerMode,
-  ScannerTask,
   ScannerActionTypes,
   ScannerStore,
   useScanner,
@@ -17,7 +18,7 @@ const dispatchTypeMapper = {
 
 const configOptionMapper = {
   [ConfigKeys.Mode]: Object.values(ScannerMode),
-  [ConfigKeys.Task]: Object.values(ScannerTask),
+  [ConfigKeys.Task]: Object.values(TaskTypes),
 };
 
 interface ScannerSelectProps {
@@ -29,6 +30,7 @@ export const ScannerConfigSelect: React.FC<ScannerSelectProps> = ({
 }) => {
   const { t } = useTranslation('scanner');
   const labelText = t(`select.${configType}.label`);
+  const optionText = (option: string) => t(`select.${configType}.${option}`);
 
   const { state, dispatch } = useScanner();
 
@@ -48,7 +50,7 @@ export const ScannerConfigSelect: React.FC<ScannerSelectProps> = ({
       >
         {configOptionMapper[configType].map((option) => (
           <MenuItem key={option} value={option}>
-            {t(`select.${configType}.${option}`)}
+            {optionText(option)}
           </MenuItem>
         ))}
       </Select>
