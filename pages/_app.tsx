@@ -1,15 +1,18 @@
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
-import { DefaultSeo } from 'next-seo';
-import { SessionProvider } from 'next-auth/react';
 import { DefaultSeoConfig } from 'next-seo.config';
 import { appWithTranslation } from 'next-i18next';
 
-import { trpc } from '~/utils/trpc';
 import ErrorBoundary from '~/components/common/error-boundary';
+import { MockDataProvider } from '~/providers/mock-data-provider';
 
 import dynamic from 'next/dynamic';
-import { MockDataProvider } from '~/providers/mock-data-provider';
+const DefaultSeo = dynamic(() =>
+  import('next-seo').then((mod) => mod.DefaultSeo)
+);
+const SessionProvider = dynamic(() =>
+  import('next-auth/react').then((mod) => mod.SessionProvider)
+);
 const CoreProvider = dynamic(() => import('~/providers/core-provider'));
 const AppControllers = dynamic(() =>
   import('~/components/app-controllers/controllers').then(
@@ -47,4 +50,4 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
   );
 }
 
-export default trpc.withTRPC(appWithTranslation(App));
+export default appWithTranslation(App);

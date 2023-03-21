@@ -1,15 +1,14 @@
-import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 import { CircularProgress } from '@mui/material';
 
+import { inAppLinks } from '~/constants/side-nav-links';
 import PageLoader from '~/components/common/loader/page-loader';
 
-import { inAppLinks, InAppLinks } from '~/constants/side-nav-links';
-
-const dashboardHref = inAppLinks[InAppLinks.DASHBOARD]?.href!;
-const authHref = inAppLinks[InAppLinks.AUTH]?.href;
-const loginHref = inAppLinks[InAppLinks.AUTH]?.nested?.[InAppLinks.LOGIN]?.href;
+const dashboardHref = inAppLinks.dashboard?.href!;
+const authHref = inAppLinks.auth?.href;
+const loginHref = inAppLinks.auth?.nested?.login?.href;
 const loginPath = `${authHref}${loginHref}`;
 const pathCheck = new RegExp(loginPath);
 
@@ -29,7 +28,8 @@ export const SessionManager: React.FC = () => {
     if (shouldRedirectToLogin) {
       router.replace({ pathname: loginPath, query: { from: router.asPath } });
     } else if (shouldRedirectInApp) {
-      router.replace({ pathname: dashboardHref });
+      const pathname = (router.query.from ?? dashboardHref) as string;
+      router.replace({ pathname });
     }
   }, [isOnPublicPath, shouldRedirectInApp, shouldRedirectToLogin, router]);
 
@@ -39,4 +39,3 @@ export const SessionManager: React.FC = () => {
     </PageLoader>
   );
 };
-
