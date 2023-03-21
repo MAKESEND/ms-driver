@@ -1,10 +1,16 @@
-import { NextSeo } from 'next-seo';
 import type { GetServerSideProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import type { NextPageWithLayout } from '~/pages/_app';
 import DrawerLayout from '~/components/layouts/drawer-layout';
-import { PickupOrderPage } from '~/components/tasks/pickup/pickup-order-page';
+
+import dynamic from 'next/dynamic';
+const NextSeo = dynamic(() => import('next-seo').then((mod) => mod.NextSeo));
+const PickupOrderPage = dynamic(() =>
+  import('~/components/tasks/pickup/pickup-order-page').then(
+    (mod) => mod.PickupOrderPage
+  )
+);
 
 export const getServerSideProps: GetServerSideProps = async ({
   locale,
