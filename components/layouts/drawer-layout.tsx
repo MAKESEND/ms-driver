@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { Box } from '@mui/material';
 
 import dynamic from 'next/dynamic';
+const DrawerMain = dynamic(() => import('./drawer/drawer-main'));
 const DrawerHeader = dynamic(() => import('./drawer/drawer-header'));
 const DrawerTopNav = dynamic(() => import('./drawer/drawer-top-nav'));
 const DrawerSideNav = dynamic(() => import('./drawer/drawer-side-nav'));
-const DrawerMain = dynamic(() => import('./drawer/drawer-main'));
+const FullScreenWrapper = dynamic(() => import('./full-screen-wrapper'));
 
 const DrawerLayout: React.FC<
   React.PropsWithChildren<{ fullHeight?: boolean }>
@@ -15,20 +15,14 @@ const DrawerLayout: React.FC<
   const closeDrawer = () => setOpen(false);
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        height: '100dvh',
-        ['@supports not (height: 100dvh)']: { height: '100vh' },
-      }}
-    >
+    <FullScreenWrapper>
       <DrawerSideNav open={open} onClose={closeDrawer} />
       <DrawerTopNav open={open} toggleDrawer={setOpen} />
       <DrawerMain open={open}>
         <DrawerHeader />
         {children}
       </DrawerMain>
-    </Box>
+    </FullScreenWrapper>
   );
 };
 
