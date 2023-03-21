@@ -1,9 +1,12 @@
 /** @type {import('next').NextConfig} */
-const { i18n } = require('./next-i18next.config');
 const { version } = require('./package.json');
+const { i18n } = require('./next-i18next.config');
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+});
 
 const APP_ENV = process.env.APP_ENV;
-const IS_DEMO = process.env.IS_DEMO;
+const IS_DEMO = process.env.IS_DEMO === 'true';
 const MS_DRIVER_MGMT = process.env.MS_DRIVER_MGMT;
 const MS_UPDATE_PARCEL_STATUS = process.env.MS_UPDATE_PARCEL_STATUS;
 const NEXTAUTH_URL = process.env.NEXTAUTH_URL;
@@ -18,13 +21,13 @@ const nextConfig = {
   images: {
     domains: ['flagcdn.com', 'images.unsplash.com', 'res.cloudinary.com'],
   },
-  reactStrictMode: true,
   publicRuntimeConfig: {
     APP_ENV,
-    IS_DEMO: IS_DEMO === 'true',
+    IS_DEMO,
     NEXTAUTH_URL,
     version,
   },
+  reactStrictMode: true,
   serverRuntimeConfig: {
     MS_DRIVER_MGMT,
     MS_UPDATE_PARCEL_STATUS,
@@ -45,4 +48,4 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+module.exports = withBundleAnalyzer(nextConfig);

@@ -3,7 +3,7 @@ import { useTranslation } from 'next-i18next';
 import { Button, IconButton } from '@mui/material';
 
 import { inAppLinks } from '~/constants/side-nav-links';
-import { ScannerTask } from '~/providers/scanner-provider';
+import { TaskTypes } from '~/constants/tasks';
 
 import dynamic from 'next/dynamic';
 const QrCodeScannerIcon = dynamic(
@@ -24,7 +24,7 @@ export const LinkToScanner: React.FC<LinkToScannerProps> = ({
     <Link
       href={{
         pathname: inAppLinks.scanner?.href!,
-        query: { task: ScannerTask.Sorting },
+        query: { task: TaskTypes.Sorting },
       }}
       passHref
       legacyBehavior
