@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { Box } from '@mui/material';
 
-import DrawerMain from './drawer/drawer-main';
-import DrawerHeader from './drawer/drawer-header';
-import DrawerTopNav from './drawer/drawer-top-nav';
-import DrawerSideNav from './drawer/drawer-side-nav';
+import dynamic from 'next/dynamic';
+const DrawerHeader = dynamic(() => import('./drawer/drawer-header'));
+const DrawerTopNav = dynamic(() => import('./drawer/drawer-top-nav'));
+const DrawerSideNav = dynamic(() => import('./drawer/drawer-side-nav'));
+const DrawerMain = dynamic(() => import('./drawer/drawer-main'));
 
 const DrawerLayout: React.FC<
   React.PropsWithChildren<{ fullHeight?: boolean }>
