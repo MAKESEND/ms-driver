@@ -1,4 +1,3 @@
-import { NextSeo } from 'next-seo';
 import type { NextPage } from 'next';
 import type {
   GetServerSidePropsContext,
@@ -7,7 +6,9 @@ import type {
 import { getCsrfToken } from 'next-auth/react';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-import Login from '~/components/login/login-page';
+import dynamic from 'next/dynamic';
+const NextSeo = dynamic(() => import('next-seo').then((mod) => mod.NextSeo));
+const Login = dynamic(() => import('~/components/login/login-page'));
 
 export async function getServerSideProps({
   locale,
