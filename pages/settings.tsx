@@ -1,10 +1,14 @@
-import { NextSeo } from 'next-seo';
 import type { GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import type { NextPageWithLayout } from '~/pages/_app';
-import { Settings } from '~/components/settings-page';
 import DrawerLayout from '~/components/layouts/drawer-layout';
+
+import dynamic from 'next/dynamic';
+const NextSeo = dynamic(() => import('next-seo').then((mod) => mod.NextSeo));
+const Settings = dynamic(() =>
+  import('~/components/settings-page').then((mod) => mod.Settings)
+);
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {
