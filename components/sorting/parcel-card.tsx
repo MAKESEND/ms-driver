@@ -8,6 +8,7 @@ import {
   styled,
   Typography,
 } from '@mui/material';
+import { useToast, ToastActionTypes } from '~/providers/toast-provider';
 
 import type { Parcel } from '~/types';
 
@@ -36,10 +37,12 @@ export const ParcelCard: React.FC<ParcelCardProps> = ({ parcel }) => {
   const receiverText = t('receiver');
   const rackText = t('rack', { ns: 'parcel' });
 
-  // TODO: remvoe mock
+  // TODO: remove mock
   // mock mutation call
   const timerRef = useRef<NodeJS.Timer>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { dispatch } = useToast();
+
   useEffect(() => {
     return () => clearTimeout(timerRef.current);
   }, []);
@@ -53,15 +56,31 @@ export const ParcelCard: React.FC<ParcelCardProps> = ({ parcel }) => {
     <CircularProgress size='1rem' sx={{ color: '#fff' }} />
   ) : null;
 
-  // TODO: remvoe mock
+  // TODO: remove mock
   // mock mutation call
-  const onSort = () => {
-    // TODO: sort parcel with trpc call
+  const onSort: (
+    trackingID: string
+  ) => React.MouseEventHandler<HTMLButtonElement> = (trackingID) => (_e) => {
     setIsLoading(true);
 
+    // TODO: sort parcel with trpc call
     timerRef.current = setTimeout(() => {
+      const payload: Parameters<typeof dispatch>[0]['payload'] = {
+        header: 'Sorting completed',
+      };
+
+      if (trackingID !== 'EX2209051141578') {
+        payload.header = 'Parcel cannot be sorted';
+        payload.severity = 'error';
+      }
+
+      dispatch({
+        type: ToastActionTypes.OpenToast,
+        payload,
+      });
+
       setIsLoading(false);
-    }, 3000);
+    }, 1500);
   };
 
   return (
@@ -86,7 +105,11 @@ export const ParcelCard: React.FC<ParcelCardProps> = ({ parcel }) => {
         </Typography>
       </CardNote>
       <CardActions sx={{ justifyContent: 'center', gap: 2 }}>
-        <Button variant='contained' disabled={isLoading} onClick={onSort}>
+        <Button
+          variant='contained'
+          disabled={isLoading}
+          onClick={onSort(trackingID)}
+        >
           {isLoading ? EndIcon : btnText}
         </Button>
       </CardActions>

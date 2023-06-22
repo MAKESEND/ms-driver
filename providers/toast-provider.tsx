@@ -6,6 +6,7 @@ import type { CallbackFunction } from '~/types';
 export interface ToastProps extends AlertProps {
   header?: React.ReactNode;
   content?: React.ReactNode;
+  severity?: AlertProps['severity'];
   onClose?: CallbackFunction;
 }
 
@@ -26,6 +27,7 @@ export type ToastCloseAction = {
 
 export type ToastState = {
   show: boolean;
+  closeIn: number; // milliseconds
   toastProps: ToastProps | null;
 };
 
@@ -38,6 +40,7 @@ export const ToastContext = createContext<{
 
 const toastDefaultState: ToastState = {
   show: false,
+  closeIn: 1500,
   toastProps: null,
 };
 
