@@ -52,6 +52,7 @@ export const TaskMedia: React.FC<TaskMediaProps> = ({
         setImages((list: File[]) => [...list, ...files.slice(0, slicer)]);
       }
     },
+    disabled,
   });
 
   const UploadImg = !images.length ? (
@@ -60,7 +61,12 @@ export const TaskMedia: React.FC<TaskMediaProps> = ({
     <Grid container width='100%' rowGap={2}>
       {images.map((image, index) => (
         <Grid item xs={6} sm={4} key={image.lastModified + index}>
-          <ImageThumb image={image} index={index} setImages={setImages} />
+          <ImageThumb
+            disabled={disabled}
+            image={image}
+            index={index}
+            setImages={setImages}
+          />
         </Grid>
       ))}
       {images.length < maxImgs && (

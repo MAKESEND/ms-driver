@@ -7,6 +7,7 @@ import { blobToBase64 } from '~/utils/img-processor';
 import { SquareBox } from '~/components/common/layout/square-box';
 
 import dynamic from 'next/dynamic';
+import { ToastActionTypes, useToast } from '~/providers/toast-provider';
 const CloseIcon = dynamic(() => import('@mui/icons-material/Close'));
 
 const Image = styled('img')(() => ({
@@ -17,6 +18,7 @@ const Image = styled('img')(() => ({
 }));
 
 export interface ImageThumbProps {
+  disabled?: boolean;
   image: File;
   index?: number;
   setImages: CallbackFunction;
@@ -25,6 +27,7 @@ export interface ImageThumbProps {
 }
 
 export const ImageThumb: React.FC<ImageThumbProps> = ({
+  disabled = false,
   image,
   setImages,
   index = 0,
@@ -33,6 +36,7 @@ export const ImageThumb: React.FC<ImageThumbProps> = ({
 }) => {
   const [imgSrc, setImgSrc] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { dispatch: handleToast } = useToast();
 
   const Img = isLoading ? (
     <CircularProgress />
@@ -40,15 +44,29 @@ export const ImageThumb: React.FC<ImageThumbProps> = ({
     <Image src={imgSrc} alt={image.name} />
   );
 
-  useEffect(() => {
-    const readAsBase64 = async (image: File) => {
-      setIsLoading(true);
-      const serializedImg = await blobToBase64(image);
-      setImgSrc(serializedImg);
-    };
+  const readAsBase64 = async (image: File) => {
+    setIsLoading(true);
+    // TODO: encrypting image data before sending
+    const serializedImg = await blobToBase64(image);
+    setImgSrc(serializedImg);
+  };
 
-    readAsBase64(image).finally(() => setIsLoading(false));
-  }, [image]);
+  useEffect(() => {
+    if (image) {
+      readAsBase64(image)
+        .catch((error) => {
+          handleToast({
+            type: ToastActionTypes.OpenToast,
+            payload: {
+              header: 'failed to load image',
+              content: error?.message,
+              severity: 'error',
+            },
+          });
+        })
+        .finally(() => setIsLoading(false));
+    }
+  }, [image, handleToast]);
 
   const onRemoveImg = () =>
     setImages &&
@@ -73,6 +91,7 @@ export const ImageThumb: React.FC<ImageThumbProps> = ({
         {Img}
       </Card>
       <IconButton
+        disabled={disabled}
         onClick={onRemoveImg}
         sx={{
           position: 'absolute',
