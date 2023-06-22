@@ -57,7 +57,7 @@ export const authOptions: AuthOptions = {
   },
   jwt: {
     secret: envs.NEXTAUTH_SECRET,
-    encode: async ({ token, secret, ...ctx }) => {
+    encode: async ({ token, secret }) => {
       const tmr = dayjs()
         .add(1, 'day')
         .set('hours', 0)

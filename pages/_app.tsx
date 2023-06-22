@@ -5,6 +5,7 @@ import { appWithTranslation } from 'next-i18next';
 
 import ErrorBoundary from '~/components/common/error-boundary';
 import { MockDataProvider } from '~/providers/mock-data-provider';
+import CoreProvider from '~/providers/core-provider';
 
 import dynamic from 'next/dynamic';
 const DefaultSeo = dynamic(() =>
@@ -13,7 +14,6 @@ const DefaultSeo = dynamic(() =>
 const SessionProvider = dynamic(() =>
   import('next-auth/react').then((mod) => mod.SessionProvider)
 );
-const CoreProvider = dynamic(() => import('~/providers/core-provider'));
 const AppControllers = dynamic(() =>
   import('~/components/app-controllers/controllers').then(
     (mod) => mod.AppControllers
