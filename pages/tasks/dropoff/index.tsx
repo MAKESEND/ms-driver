@@ -6,6 +6,9 @@ import DrawerLayout from '~/components/layouts/drawer-layout';
 
 import dynamic from 'next/dynamic';
 const NextSeo = dynamic(() => import('next-seo').then((mod) => mod.NextSeo));
+const Dropoff = dynamic(() =>
+  import('~/components/tasks/dropoff/dropoff-page').then((mod) => mod.Dropoff)
+);
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {
@@ -19,7 +22,7 @@ const DropoffPage: NextPageWithLayout = () => {
   return (
     <>
       <NextSeo title='Dropoff' />
-      Dropoff
+      <Dropoff />
     </>
   );
 };
