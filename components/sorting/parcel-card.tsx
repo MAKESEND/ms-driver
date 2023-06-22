@@ -86,13 +86,8 @@ export const ParcelCard: React.FC<ParcelCardProps> = ({ parcel }) => {
         </Typography>
       </CardNote>
       <CardActions sx={{ justifyContent: 'center', gap: 2 }}>
-        <Button
-          variant='contained'
-          disabled={isLoading}
-          onClick={onSort}
-          endIcon={EndIcon}
-        >
-          {btnText}
+        <Button variant='contained' disabled={isLoading} onClick={onSort}>
+          {isLoading ? EndIcon : btnText}
         </Button>
       </CardActions>
     </Card>
