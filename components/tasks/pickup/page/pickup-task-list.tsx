@@ -1,5 +1,6 @@
 import { Box, Fade, Stack, styled } from '@mui/material';
 
+import type { PickupTask } from '~/types';
 import { PickupTaskCard } from './pickup-task-card';
 
 const PickupTaskListLayout = styled(Stack)(() => ({
@@ -8,8 +9,6 @@ const PickupTaskListLayout = styled(Stack)(() => ({
   justifyContent: 'center',
   alignItems: 'center',
 }));
-
-import type { PickupTask } from '~/types';
 
 export interface PickupTaskListProps {
   pickupTasks: PickupTask[];
