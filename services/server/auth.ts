@@ -12,8 +12,7 @@ import type {
 } from '~/components/login/login-page';
 
 const clientInitiator = httpClient(axiosClient);
-clientInitiator.server.init();
-const serverHttpClient = clientInitiator.server.getHttpClient();
+const serverHttpClient = clientInitiator.server.init();
 
 const driverMgntHeaders = {
   'content-type': 'application/json',

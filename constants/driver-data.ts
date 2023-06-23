@@ -47,8 +47,9 @@ export interface DriverData {
   bank_acc_name: string;
   bank_name: string;
   security_deposit: 0;
-  driver_license_image: string; // URI
-  id_card_image: string; // URI
+  driver_license_image?: string; // URI
+  vehicle_image?: string; // URI
+  id_card_image?: string; // URI
   register_date: string; // UTC timestamp
   status: string;
   distance: number;

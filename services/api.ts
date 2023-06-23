@@ -1,5 +1,6 @@
+// enabling chaining methods with IoC
 export const httpClient = <T>(clientConstructor: T) => {
-  let httpClient: typeof clientConstructor | null = null;
+  let httpClient: T | null = null;
 
   return {
     server: {
@@ -8,15 +9,14 @@ export const httpClient = <T>(clientConstructor: T) => {
           throw new Error('this method only allows in server runtime');
 
         httpClient = clientConstructor;
-      },
-      getHttpClient: () => {
-        if (!httpClient) throw new Error('http client is not initiated');
-
         return httpClient;
       },
     },
     client: {
-      init: () => clientConstructor,
+      init: () => {
+        httpClient = clientConstructor;
+        return httpClient;
+      },
     },
   };
 };
