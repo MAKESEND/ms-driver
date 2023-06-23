@@ -58,12 +58,6 @@ export const inAppLinks: CustomLinkList = {
       },
     },
   },
-  [InAppLinks.SORTING]: {
-    id: InAppLinks.SORTING,
-    label: 'sorting',
-    href: '/sorting',
-    disabled: false,
-  },
   [InAppLinks.MAP]: {
     id: InAppLinks.MAP,
     label: 'map',
