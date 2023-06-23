@@ -1,9 +1,8 @@
 import getConfig from 'next/config';
 
-const { publicRuntimeConfig } = getConfig();
-
-const domainType =
-  publicRuntimeConfig.APP_ENV === 'production' ? 'asia' : 'ninja';
+const {
+  publicRuntimeConfig: { MS_API, MS_MERCHANT_API, MS_LEGACY_API },
+} = getConfig();
 
 export enum ResourceHosts {
   MSApi = 'MSApi',
@@ -12,9 +11,9 @@ export enum ResourceHosts {
 }
 
 export const apiHosts = {
-  [ResourceHosts.MSApi]: `https://apis.makesend.${domainType}`,
-  [ResourceHosts.MSMerchantApi]: `https://api-merchant.makesend.${domainType}`,
-  [ResourceHosts.MSLegacy]: `https://apiold.makesend.${domainType}`,
+  [ResourceHosts.MSApi]: MS_API,
+  [ResourceHosts.MSMerchantApi]: MS_MERCHANT_API,
+  [ResourceHosts.MSLegacy]: MS_LEGACY_API,
 };
 
 export enum ResourceUrls {

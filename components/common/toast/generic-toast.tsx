@@ -1,9 +1,23 @@
+import { useEffect, useRef } from 'react';
 import { Alert, AlertTitle, Collapse } from '@mui/material';
 
 import { useToast, ToastActionTypes } from '~/providers/toast-provider';
 
 export const Toast: React.FC = () => {
   const { state, dispatch } = useToast();
+  const timerRef = useRef<NodeJS.Timeout>();
+
+  useEffect(() => {
+    return () => clearTimeout(timerRef.current);
+  }, []);
+
+  useEffect(() => {
+    if (state.show && state.closeIn && !state.toastProps?.onClose) {
+      timerRef.current = setTimeout(() => {
+        dispatch({ type: ToastActionTypes.CloseToast });
+      }, state.closeIn);
+    }
+  }, [dispatch, state.closeIn, state.show, state.toastProps?.onClose]);
 
   const onClose =
     state.toastProps?.onClose ||
