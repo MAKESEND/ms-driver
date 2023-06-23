@@ -1,8 +1,16 @@
 import '@testing-library/jest-dom';
+import '@testing-library/jest-dom/extend-expect';
 import server from '~/mocks/server';
+import { mockFn, mockDeep } from 'jest-mock-extended';
+import { type NextRouter } from 'next/router';
 
 jest.mock('react-i18next', () => ({
   useTranslation: () => ({ t: (key: string) => key }),
+}));
+
+jest.mock('next/router', () => ({
+  ...jest.requireActual('next/router'),
+  useRouter: mockFn().mockReturnValue(mockDeep<NextRouter>()),
 }));
 
 // Establish API mocking before all tests.

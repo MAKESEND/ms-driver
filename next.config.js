@@ -20,6 +20,14 @@ const IS_DEMO = process.env.IS_DEMO === 'true';
 
 
 const nextConfig = {
+  compiler: {
+    removeConsole: {
+      exclude: ['error'],
+    },
+    reactRemoveProperties: {
+      properties: ['^data-testid$'],
+    }
+  },
   experimental: {
     appDir: true,
   },
