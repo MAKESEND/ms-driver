@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 
 import { useScanner, ScannerActionTypes } from '~/providers/scanner-provider';
-import { useVideoDevices } from '~/hooks/useVideoDevices';
+import { useVideoDevices } from '~/hooks/use-video-devices';
 
 export const CameraSelect: React.FC = () => {
   const { t } = useTranslation('scanner');
