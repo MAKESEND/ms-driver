@@ -18,6 +18,7 @@ const customJestConfig = {
     '!**/types/index.ts',
     '!**/.*/**',
     '!./*.{js,ts}',
+    '!**/utils/trpc.ts',
   ],
   coverageProvider: 'v8',
   coverageThreshold: {
