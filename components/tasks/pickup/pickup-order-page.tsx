@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from 'react';
+import { useState, useEffect, useReducer, useRef } from 'react';
 import { CircularProgress, Divider, Stack } from '@mui/material';
 
 import { useMockData } from '~/providers/mock-data-provider';
@@ -18,6 +18,7 @@ import { ConfirmButton } from '~/components/tasks/pickup/order-id/confirm-button
 import { TaskSelector } from '~/components/tasks/task-selector';
 
 import dynamic from 'next/dynamic';
+import { ToastActionTypes, useToast } from '~/providers/toast-provider';
 const TaskMedia = dynamic(
   () => import('~/components/tasks/task-media').then((mod) => mod.TaskMedia),
   { loading: () => <CircularProgress /> }
@@ -30,10 +31,20 @@ export interface PickupOrderPageProps {
 export const PickupOrderPage: React.FC<PickupOrderPageProps> = ({
   orderId: _orderId,
 }) => {
-  // TODO: remove mock data
   const [state, dispatch] = useReducer(reducer, defaultValue);
+  const { dispatch: handleToast } = useToast();
+  // TODO: remove mock data
   const { mockData, isLoading: isLoadingList } = useMockData();
   const parcelsByOrderId = mockData?.parcelsByOrderId ?? [];
+  const selectionState = `(${state.selectedParcels.length}/${parcelsByOrderId.length})`;
+
+  // TODO: remove mock behavior
+  const timerRef = useRef<NodeJS.Timeout>();
+  const [isUploadingImg, setIsUploadingImg] = useState<boolean>(false);
+
+  useEffect(() => {
+    return () => clearTimeout(timerRef.current);
+  }, []);
 
   useEffect(() => {
     // this causes unnecessary re-render
@@ -53,7 +64,6 @@ export const PickupOrderPage: React.FC<PickupOrderPageProps> = ({
 
   const scannerHref = `${inAppLinks.scanner?.href}?task=${TaskTypes.Pickup}`;
 
-  const isUploadingImg = false;
   // TODO: update constraint on select all checkbox
   // this should be synced and affect checkbox in each parcel card in the list
   const disableSelector = isLoadingList;
@@ -62,10 +72,21 @@ export const PickupOrderPage: React.FC<PickupOrderPageProps> = ({
   const disableConfirmBtn =
     isUploadingImg || isLoadingList || !state.selectedParcels.length;
 
-  const selectionState = `(${state.selectedParcels.length}/${parcelsByOrderId.length})`;
+  const onConfirmPickup = async () => {
+    // TODO: business logic to update delivery status
+    setIsUploadingImg(true);
 
-  // TODO: business logic to update delivery status
-  const onConfirmPickup = async () => {};
+    // TODO: remove mock behavior
+    timerRef.current = setTimeout(() => {
+      setIsUploadingImg(false);
+      handleToast({
+        type: ToastActionTypes.OpenToast,
+        payload: {
+          header: 'Dropoff task completed',
+        },
+      });
+    }, 3500);
+  };
 
   return (
     <PickupOrderStateContext.Provider value={{ state, dispatch }}>

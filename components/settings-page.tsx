@@ -19,7 +19,7 @@ export const Settings: React.FC = () => {
   const selectLanguage = t('title.selectLanguage');
 
   const router = useRouter();
-  const [lang, setLang] = useState<string>(router.locale ?? 'en');
+  const [lang, setLang] = useState<string>(router.locale || 'en');
 
   const onChange = (e: SelectChangeEvent<unknown>) => {
     const locale = e.target.value as string;

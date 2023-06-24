@@ -1,7 +1,7 @@
 import getConfig from 'next/config';
 
 const {
-  publicRuntimeConfig: { MS_API, MS_MERCHANT_API, MS_LEGACY_API },
+  serverRuntimeConfig: { MS_API, MS_MERCHANT_API, MS_LEGACY_API },
 } = getConfig();
 
 export enum ResourceHosts {

@@ -1,9 +1,9 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
-import PageLoader from '~/components/common/loader/page-loader';
+import { PageLoader } from '~/components/common/loader/page-loader';
 
-export const RouteLoader: React.FC<React.PropsWithChildren> = () => {
+export const RouteLoader: React.FC = () => {
   const { events } = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 

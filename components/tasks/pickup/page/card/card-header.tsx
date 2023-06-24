@@ -13,6 +13,9 @@ export const PickupTaskCardHeader: React.FC<PickupTaskCardHeaderProps> = ({
   onClick,
   skipBtnText,
 }) => {
+  // TODO: implement with business logic
+  const disabled = true;
+
   return (
     <Box
       sx={{
@@ -23,7 +26,7 @@ export const PickupTaskCardHeader: React.FC<PickupTaskCardHeaderProps> = ({
       }}
     >
       <Typography variant='h3'>{cardHeader}</Typography>
-      <Button variant='outlined' disabled onClick={onClick}>
+      <Button variant='outlined' disabled={disabled} onClick={onClick}>
         {skipBtnText}
       </Button>
     </Box>

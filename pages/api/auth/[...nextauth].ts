@@ -13,14 +13,19 @@ dayjs.extend(relativeTime);
 dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.tz.setDefault('Asia/Bangkok');
+const oneDay = 60 * 60 * 24;
 
-import { authServices } from '~/services/server/auth';
-
-import type { DriverBasicInfo } from '~/constants/driver-data';
-import { DriverBasicInfoKeys } from '~/constants/driver-data';
 import { envs } from '~/constants/envs';
 import { inAppLinks } from '~/constants/side-nav-links';
 import { authProviders } from '~/constants/auth-provider';
+import {
+  type DriverData,
+  DriverBasicInfo,
+  DriverBasicInfoKeys,
+} from '~/constants/driver-data';
+import { authServices } from '~/services/server/auth';
+
+import { mockDriverLogin } from '~/mocks/driverLogin';
 
 const msDriverCredentials = CredentialsProvider({
   type: 'credentials',
@@ -31,22 +36,29 @@ const msDriverCredentials = CredentialsProvider({
     birthday: { label: 'Birthday', type: 'text' },
   },
   authorize: async (credentials, _req) => {
+    let driverData: Partial<DriverData> | null = null;
     if (!credentials) return null;
 
-    const driverId = await authServices.login(credentials).then(({ id }) => id);
+    const mockDriverData = mockDriverLogin(credentials);
 
-    const driverData = await authServices.getDriverData(driverId);
+    if (mockDriverData) {
+      driverData = mockDriverData;
+    } else {
+      const driverId = await authServices
+        .login(credentials)
+        .then(({ id }) => id);
+
+      driverData = await authServices.getDriverData(driverId);
+    }
 
     const driverInfo = pick<typeof driverData>(
       driverData,
       Object.values(DriverBasicInfoKeys)
     );
 
-    return { id: driverId, ...driverInfo };
+    return { id: driverInfo.id!, ...driverInfo };
   },
 });
-
-const oneDay = 60 * 60 * 24;
 
 export const authOptions: AuthOptions = {
   providers: [msDriverCredentials],
