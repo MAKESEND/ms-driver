@@ -4,10 +4,10 @@ import { styled, Card, CircularProgress, IconButton } from '@mui/material';
 import type { CallbackFunction } from '~/types';
 import { blobToBase64 } from '~/utils/img-processor';
 
+import { ToastActionTypes, useToast } from '~/providers/toast-provider';
 import { SquareBox } from '~/components/common/layout/square-box';
 
 import dynamic from 'next/dynamic';
-import { ToastActionTypes, useToast } from '~/providers/toast-provider';
 const CloseIcon = dynamic(() => import('@mui/icons-material/Close'));
 
 const Image = styled('img')(() => ({
