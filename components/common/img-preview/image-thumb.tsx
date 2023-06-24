@@ -79,6 +79,7 @@ export const ImageThumb: React.FC<ImageThumbProps> = ({
   return (
     <SquareBox sx={{ position: 'relative' }}>
       <Card
+        data-testid='card'
         sx={{
           width,
           height,
