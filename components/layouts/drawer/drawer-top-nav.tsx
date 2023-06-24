@@ -9,7 +9,7 @@ import {
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
-import { Notification } from '~/components/common/notification';
+import { NotificationController } from '~/components/common/notification-controller';
 
 export interface AppBarProps {
   open?: boolean;
@@ -66,7 +66,7 @@ export const DrawerTopNav: React.FC<{
         </IconButton>
         <AppTitle />
         <Box flexGrow={1} />
-        <Notification />
+        <NotificationController />
       </Toolbar>
     </AppBar>
   );

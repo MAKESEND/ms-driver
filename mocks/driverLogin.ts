@@ -7,13 +7,11 @@ export const mockDriverLogin = ({
   birthday: string;
   phone: string;
 }) => {
-  const [mockDriver] = drivers;
-
-  if (
-    new Date(birthday).toISOString() === mockDriver.dob &&
-    mockDriver.phone === phone
-  )
-    return mockDriver;
-
-  return null;
+  return (
+    drivers.find(
+      (driver) =>
+        new Date(birthday).toISOString() === driver.dob &&
+        driver.phone === phone
+    ) ?? null
+  );
 };
