@@ -1,6 +1,8 @@
 import { createContext, useContext, useReducer, useRef } from 'react';
+import { useRecoilValue } from 'recoil';
 
 import { TaskTypes } from '~/constants/tasks';
+import { scannerConfigState } from '~/store/scanner';
 
 export enum ScannerMode {
   Single = 'single',
@@ -116,7 +118,11 @@ export const ScannerProvider: React.FC<React.PropsWithChildren> = ({
   children,
 }) => {
   const scannedResultRef = useRef<ScannedResult[]>([]);
-  const [state, dispatch] = useReducer(reducer, defaultScanner);
+  const scannerConfig = useRecoilValue(scannerConfigState);
+  const [state, dispatch] = useReducer(reducer, {
+    ...defaultScanner,
+    config: { ...scannerConfig },
+  });
 
   return (
     <ScannerContext.Provider value={{ state, dispatch, scannedResultRef }}>
