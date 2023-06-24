@@ -4,9 +4,15 @@ import { ScannerProvider } from '~/providers/scanner-provider';
 
 import { ScannerLayout } from '~/components/scanner/scanner-layout';
 import { CameraLayout } from '~/components/scanner/camera/camera-layout';
-import { ScannerConfig } from '~/components/scanner/config/scanner-config';
 
 import dynamic from 'next/dynamic';
+const ScannerConfig = dynamic(
+  () =>
+    import('~/components/scanner/config/scanner-config').then(
+      (mod) => mod.ScannerConfig
+    ),
+  { ssr: false }
+);
 const ScannerCamera = dynamic(
   () =>
     import('~/components/scanner/scanner-camera').then(

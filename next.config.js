@@ -17,13 +17,15 @@ const {
 } = require('./config');;
 
 const IS_DEMO = process.env.IS_DEMO === 'true';
-
+const isProduction = NODE_ENV === 'production';
 
 const nextConfig = {
   compiler: {
-    removeConsole: {
-      exclude: ['error'],
-    },
+    ...(isProduction && {
+      removeConsole: {
+        exclude: ['error'],
+      }
+    }),
     reactRemoveProperties: {
       properties: ['^data-testid$'],
     }

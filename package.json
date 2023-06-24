@@ -44,6 +44,8 @@
     "react-lottie-player": "^1.5.4",
     "react-qr-reader": "3.0.0-beta-1",
     "react-use": "^17.4.0",
+    "recoil": "^0.7.7",
+    "recoil-persist": "^4.2.0",
     "sharp": "^0.31.3",
     "zod": "^3.21.4"
   },
