@@ -6,10 +6,13 @@ import { CircularProgress } from '@mui/material';
 import { inAppLinks } from '~/constants/side-nav-links';
 import PageLoader from '~/components/common/loader/page-loader';
 
+// TODO: improve routes with curry pattern
 const dashboardHref = inAppLinks.dashboard?.href!;
 const authHref = inAppLinks.auth?.href;
 const loginHref = inAppLinks.auth?.nested?.login?.href;
 const loginPath = `${authHref}${loginHref}`;
+
+// TODO: improve ways to validate path check
 const pathCheck = new RegExp(loginPath);
 
 export const SessionManager: React.FC = () => {
@@ -28,8 +31,9 @@ export const SessionManager: React.FC = () => {
     if (shouldRedirectToLogin) {
       router.replace({ pathname: loginPath, query: { from: router.asPath } });
     } else if (shouldRedirectInApp) {
-      const pathname = (router.query.from ?? dashboardHref) as string;
-      router.replace({ pathname });
+      router.replace({
+        pathname: (router.query.from || dashboardHref) as string,
+      });
     }
   }, [isOnPublicPath, shouldRedirectInApp, shouldRedirectToLogin, router]);
 
