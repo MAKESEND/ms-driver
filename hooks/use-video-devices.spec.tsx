@@ -1,5 +1,6 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import { useVideoDevices } from './use-video-devices';
+import { RecoilRoot } from 'recoil';
 
 describe('use video devices hook', () => {
   test('should return devices', async () => {
@@ -10,7 +11,9 @@ describe('use video devices hook', () => {
       },
     });
 
-    const { result } = renderHook(() => useVideoDevices());
+    const { result } = renderHook(() => useVideoDevices(), {
+      wrapper: ({ children }) => <RecoilRoot>{children}</RecoilRoot>,
+    });
 
     await waitFor(() => expect(result.current).toEqual(mockDevices));
   });

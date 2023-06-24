@@ -1,4 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useRecoilState } from 'recoil';
+import { deviceState } from '~/store/scanner';
 
 export const getDevices = async (
   setter: React.Dispatch<React.SetStateAction<MediaDeviceInfo[]>>
@@ -13,11 +15,11 @@ export const getDevices = async (
 };
 
 export const useVideoDevices = () => {
-  const [devices, setDevices] = useState<MediaDeviceInfo[]>([]);
+  const [devices, setDevices] = useRecoilState(deviceState);
 
   useEffect(() => {
     getDevices(setDevices);
-  }, []);
+  }, [setDevices]);
 
   return devices;
 };

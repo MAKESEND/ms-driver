@@ -7,6 +7,8 @@ const MS_UPDATE_PARCEL_STATUS = process.env.MS_UPDATE_PARCEL_STATUS;
 const NEXTAUTH_URL = process.env.NEXTAUTH_URL;
 const NEXTAUTH_SECRET = process.env.NEXTAUTH_SECRET;
 
+const NOTIFICATION_SECRET = process.env.NOTIFICATION_SECRET;
+
 const PORT = process.env.PORT;
 
 const {
@@ -32,6 +34,7 @@ module.exports = {
   MS_UPDATE_PARCEL_STATUS,
   NEXTAUTH_URL,
   NEXTAUTH_SECRET,
+  NOTIFICATION_SECRET,
   PORT,
   API,
 };

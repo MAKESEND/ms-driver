@@ -1,11 +1,12 @@
-import Link from 'next/link';
 import { useTranslation } from 'next-i18next';
 import { Button, IconButton } from '@mui/material';
 
 import { inAppLinks } from '~/constants/side-nav-links';
-import { TaskTypes } from '~/constants/tasks';
 
 import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
+import { useSetRecoilState } from 'recoil';
+import { scannerConfigState } from '~/store/scanner';
 const QrCodeScannerIcon = dynamic(
   () => import('@mui/icons-material/QrCodeScanner')
 );
@@ -19,25 +20,30 @@ export const LinkToScanner: React.FC<LinkToScannerProps> = ({
 }) => {
   const { t } = useTranslation('sorting');
   const btnText = t('btn.scan');
+  const router = useRouter();
+  const setScannerConfig = useSetRecoilState(scannerConfigState);
+
+  const onClick = () => {
+    setScannerConfig((prev) => ({ ...prev, task: 'sorting' }));
+    router.push(inAppLinks.scanner?.href!);
+  };
 
   return (
-    <Link
-      href={{
-        pathname: inAppLinks.scanner?.href!,
-        query: { task: TaskTypes.Sorting },
-      }}
-      passHref
-      legacyBehavior
-    >
+    <>
       {shrink ? (
-        <IconButton>
+        <IconButton onClick={onClick}>
           <QrCodeScannerIcon />
         </IconButton>
       ) : (
-        <Button fullWidth variant='outlined' endIcon={<QrCodeScannerIcon />}>
+        <Button
+          fullWidth
+          onClick={onClick}
+          variant='outlined'
+          endIcon={<QrCodeScannerIcon />}
+        >
           {btnText}
         </Button>
       )}
-    </Link>
+    </>
   );
 };

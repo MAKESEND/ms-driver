@@ -1,4 +1,4 @@
-import { CircularProgress } from '@mui/material';
+import { Box, CircularProgress } from '@mui/material';
 
 import { useScanner } from '~/providers/scanner-provider';
 
@@ -11,7 +11,11 @@ const QRReader = dynamic(
       (mode) => mode.QRReader
     ),
   {
-    loading: () => <CircularProgress />,
+    loading: () => (
+      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+        <CircularProgress />
+      </Box>
+    ),
     ssr: false,
   }
 );

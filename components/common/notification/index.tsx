@@ -1,5 +1,4 @@
 import { useState } from 'react';
-
 import {
   Badge,
   Divider,
@@ -8,11 +7,8 @@ import {
   type MenuProps,
 } from '@mui/material';
 
-import { NotificationHeader } from './notification-update/notification-header';
-import {
-  UpdateItem,
-  type UpdateItemProps,
-} from './notification-update/update-item';
+import { NotificationHeader } from './notification-header';
+import { UpdateItem, type UpdateItemProps } from './update-item';
 
 import dynamic from 'next/dynamic';
 const NotificationsIcon = dynamic(
@@ -33,16 +29,14 @@ const menuProps: {
   },
 };
 
-export const Notification: React.FC<React.PropsWithChildren> = ({
-  children,
-}) => {
+export const Notification: React.FC<
+  React.PropsWithChildren<{ updates: UpdateItemProps[] }>
+> = ({ children, updates }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const Icon = children ?? <NotificationsIcon />;
-
-  // TODO: remove mock notification updates
-  const updates: UpdateItemProps[] = [];
+  const badgeCount = updates.filter(({ isRead }) => !isRead).length;
 
   const onOpen = (e: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(e.currentTarget);
@@ -57,7 +51,7 @@ export const Notification: React.FC<React.PropsWithChildren> = ({
   return (
     <>
       <IconButton aria-label='notification' color='inherit' onClick={onOpen}>
-        <Badge badgeContent={updates.length} color='error'>
+        <Badge badgeContent={badgeCount} color='error'>
           {Icon}
         </Badge>
       </IconButton>

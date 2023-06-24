@@ -1,4 +1,4 @@
-/** @type {import('next').NextConfig} */
+// /** @type {import('next').NextConfig} */
 const { version } = require('./package.json');
 const { i18n } = require('./next-i18next.config');
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
@@ -10,6 +10,7 @@ const {
   NODE_ENV,
   MS_DRIVER_MGMT,
   MS_UPDATE_PARCEL_STATUS,
+  NOTIFICATION_SECRET,
   NEXTAUTH_URL,
   NEXTAUTH_SECRET,
   PORT,
@@ -17,13 +18,15 @@ const {
 } = require('./config');;
 
 const IS_DEMO = process.env.IS_DEMO === 'true';
-
+const isProduction = NODE_ENV === 'production';
 
 const nextConfig = {
   compiler: {
-    removeConsole: {
-      exclude: ['error'],
-    },
+    ...(isProduction && {
+      removeConsole: {
+        exclude: ['error'],
+      }
+    }),
     reactRemoveProperties: {
       properties: ['^data-testid$'],
     }
@@ -47,6 +50,7 @@ const nextConfig = {
     MS_UPDATE_PARCEL_STATUS,
     NEXTAUTH_SECRET,
     NODE_ENV,
+    NOTIFICATION_SECRET,
     PORT,
     ...API
   },

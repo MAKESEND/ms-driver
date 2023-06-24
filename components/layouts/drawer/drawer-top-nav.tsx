@@ -4,9 +4,12 @@ import {
   IconButton,
   styled,
   Toolbar,
+  Typography,
 } from '@mui/material';
+import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 
-import { Notification } from '~/components/common/notification';
+import { NotificationController } from '~/components/common/notification-controller';
 
 export interface AppBarProps {
   open?: boolean;
@@ -37,7 +40,15 @@ const AppBar = styled(MuiAppBar, {
 import dynamic from 'next/dynamic';
 const MenuIcon = dynamic(() => import('@mui/icons-material/Menu'));
 
-const DrawerTopNav: React.FC<{
+export const AppTitle: React.FC = () => {
+  const { t } = useTranslation('common');
+  const { asPath } = useRouter();
+  const route = asPath.split('/').slice(-1)[0];
+
+  return <Typography variant='h1'>{t(`links.${route}`)}</Typography>;
+};
+
+export const DrawerTopNav: React.FC<{
   open: boolean;
   toggleDrawer: React.Dispatch<React.SetStateAction<boolean>>;
 }> = ({ open, toggleDrawer }) => {
@@ -53,8 +64,9 @@ const DrawerTopNav: React.FC<{
         >
           <MenuIcon />
         </IconButton>
+        <AppTitle />
         <Box flexGrow={1} />
-        <Notification />
+        <NotificationController />
       </Toolbar>
     </AppBar>
   );

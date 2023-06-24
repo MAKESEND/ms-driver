@@ -23,11 +23,6 @@ jest.mock('next-auth/react', () => ({
   ),
 }));
 
-jest.mock('next-i18next/serverSideTranslations', () => ({
-  ...jest.requireActual('next-i18next/serverSideTranslations'),
-  serverSideTranslations: mockFn<typeof serverSideTranslations>(),
-}));
-
 // Establish API mocking before all tests.
 beforeAll(() => server.listen());
 // Reset any request handlers that we may add during the tests,

@@ -1,5 +1,6 @@
-import Link from 'next/link';
 import { useState } from 'react';
+import { useRouter } from 'next/router';
+import { useSetRecoilState } from 'recoil';
 import { useTranslation } from 'next-i18next';
 import {
   Button as MuiButton,
@@ -9,6 +10,7 @@ import {
   Typography,
 } from '@mui/material';
 
+import { scannerConfigState } from '~/store/scanner';
 import type { TaskTypes } from '~/constants/tasks';
 import { inAppLinks } from '~/constants/side-nav-links';
 
@@ -53,6 +55,8 @@ export const FilterOptions = ({
   setSelectedOptions,
   taskType,
 }: FilterOptionsProps) => {
+  const router = useRouter();
+  const setScannerConfig = useSetRecoilState(scannerConfigState);
   const { t } = useTranslation('tasks');
 
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
@@ -64,18 +68,15 @@ export const FilterOptions = ({
 
   const Label = (option: string) => (label ? `${label} ${option}` : t(option));
 
+  const onClick = () => {
+    setScannerConfig((prev) => ({ ...prev, task: 'pickup', mode: 'bulk' }));
+    router.push(inAppLinks.scanner?.href!);
+  };
+
   const Scanner = scan ? (
-    <Link
-      passHref
-      href={{
-        pathname: inAppLinks.scanner?.href!,
-        query: { task: taskType },
-      }}
-    >
-      <Button>
-        <QrScannerIcon />
-      </Button>
-    </Link>
+    <Button onClick={onClick}>
+      <QrScannerIcon />
+    </Button>
   ) : null;
 
   return (
