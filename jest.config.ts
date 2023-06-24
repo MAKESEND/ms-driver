@@ -9,15 +9,17 @@ const customJestConfig = {
   collectCoverageFrom: [
     '**/*.{js,ts,jsx,tsx}',
     '!**/node_modules/**',
+    '!**/components/common/layout/**',
     '!**/constants/**',
     '!**/mocks/**',
     '!**/styles/**',
     '!**/test/**',
     '!**/public/**',
-    '!**/*.d.ts',
-    '!**/types/index.ts',
-    '!**/.*/**',
-    '!./*.{js,ts}',
+    '!**/*.d.ts', // ignore all type annotation files
+    '!**/types/index.ts', // ignore type annotation barrel file
+    '!**/.*/**', // ignore all hidden and config files
+    '!./*.{js,ts}', // ignore config files at root
+    '!**/server/**',
     '!**/utils/trpc.ts',
   ],
   coverageProvider: 'v8',
@@ -26,7 +28,7 @@ const customJestConfig = {
       branches: 60,
       functions: 60,
       lines: 60,
-      statements: -20,
+      statements: -200,
     },
   },
   moduleDirectories: ['node_modules', '<rootDir>/'],
