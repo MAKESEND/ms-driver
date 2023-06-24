@@ -8,11 +8,8 @@ import {
   type MenuProps,
 } from '@mui/material';
 
-import { NotificationHeader } from './notification-update/notification-header';
-import {
-  UpdateItem,
-  type UpdateItemProps,
-} from './notification-update/update-item';
+import { NotificationHeader } from './notification/notification-header';
+import { UpdateItem, type UpdateItemProps } from './notification/update-item';
 
 import dynamic from 'next/dynamic';
 const NotificationsIcon = dynamic(
@@ -42,7 +39,10 @@ export const Notification: React.FC<React.PropsWithChildren> = ({
   const Icon = children ?? <NotificationsIcon />;
 
   // TODO: remove mock notification updates
-  const updates: UpdateItemProps[] = [];
+  const updates: UpdateItemProps[] = [
+    { id: 1, message: 'hello', isRead: true },
+    { id: 2, message: 'world', isRead: false },
+  ];
 
   const onOpen = (e: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(e.currentTarget);
@@ -57,7 +57,10 @@ export const Notification: React.FC<React.PropsWithChildren> = ({
   return (
     <>
       <IconButton aria-label='notification' color='inherit' onClick={onOpen}>
-        <Badge badgeContent={updates.length} color='error'>
+        <Badge
+          badgeContent={updates.filter(({ isRead }) => !isRead).length}
+          color='error'
+        >
           {Icon}
         </Badge>
       </IconButton>
