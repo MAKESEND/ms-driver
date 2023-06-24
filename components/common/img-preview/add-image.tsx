@@ -1,7 +1,6 @@
 import { Card, IconButton } from '@mui/material';
 
-import { CallbackFunction } from '~/types';
-
+import type { CallbackFunction } from '~/types';
 import { SquareBox } from '~/components/common/layout/square-box';
 
 import dynamic from 'next/dynamic';
