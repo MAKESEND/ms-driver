@@ -1,49 +1,101 @@
-import { useState } from 'react';
-import { useRouter } from 'next/router';
-import { Avatar, MenuItem, Typography } from '@mui/material';
+import Link from 'next/link';
+
+import { Avatar, MenuItem, Stack, Typography } from '@mui/material';
+import LaunchIcon from '@mui/icons-material/Launch';
+
+import { useUpdates } from '~/providers/updates-provider';
+import { NotificationTypes } from '~/constants/notification';
+import { ModalActionTypes, useModal } from '~/providers/modal-provider';
 
 export interface UpdateItemProps {
   id: string | number;
   href?: string;
-  message?: string;
+  title?: string;
+  content?: string;
   imgSrc?: string;
   isRead?: boolean;
+  updateType?: NotificationTypes;
 }
 
 export const UpdateItem: React.FC<UpdateItemProps> = ({
+  id,
   imgSrc,
-  message,
+  title,
+  content,
   href,
   isRead = false,
+  updateType,
 }) => {
-  const router = useRouter();
-  const [read, setRead] = useState<boolean>(isRead);
+  const [, setUpdates] = useUpdates();
+  const { dispatch: handleModal } = useModal();
 
   const Image = imgSrc ? (
-    <Avatar src={imgSrc} alt={message} variant='rounded' />
+    <Avatar src={imgSrc} alt={content} variant='rounded' />
   ) : null;
 
-  const disabled = read && !href;
-
-  // TODO: handle onClick callback
   const onClick = () => {
-    setRead(true);
+    // set message as read
+    setUpdates((prevUpdates) =>
+      prevUpdates.map((update) => ({
+        ...update,
+        isRead: update.id === id ? true : !!update.isRead,
+      }))
+    );
 
-    if (href) {
-      router.push(href);
+    if (updateType === NotificationTypes.UPDATE) {
+      handleModal({
+        type: ModalActionTypes.OpenModal,
+        payload: {
+          title,
+          content,
+        },
+      });
     }
   };
 
   return (
-    <MenuItem disabled={disabled} onClick={onClick}>
+    <MenuItem onClick={onClick} sx={{ gap: 1 }}>
       {Image}
-      <Typography
+      <Stack
         flexGrow={1}
-        textAlign='start'
-        sx={{ ...(imgSrc && { ml: 2 }) }}
+        sx={{
+          color: (theme) =>
+            isRead ? theme.palette.common.lightGrey : 'inherit',
+        }}
       >
-        {message}
-      </Typography>
+        <Typography
+          variant='body1'
+          textAlign='start'
+          sx={{
+            ['&:first-letter']: {
+              textTransform: 'capitalize',
+            },
+          }}
+        >
+          {title}
+        </Typography>
+        <Typography
+          variant='body2'
+          textAlign='start'
+          sx={{
+            flexGrow: 1,
+            whiteSpace: 'pre-line',
+            wordBreak: 'break-word',
+            display: '-webkit-box',
+            WebkitBoxOrient: 'vertical',
+            WebkitLineClamp: '2',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+          }}
+        >
+          {content}
+        </Typography>
+      </Stack>
+      {href && (
+        <Link href={href} legacyBehavior passHref>
+          <LaunchIcon color='action' />
+        </Link>
+      )}
     </MenuItem>
   );
 };

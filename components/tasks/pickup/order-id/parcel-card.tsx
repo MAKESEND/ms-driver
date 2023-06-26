@@ -10,7 +10,7 @@ import { ParcelCardContent } from './parcel-card-content';
 
 // TODO: remove after restructure and unify parcel props
 import type { parcelsByOrderId } from '~/mocks/parcels';
-type Parcel = typeof parcelsByOrderId[0];
+type Parcel = (typeof parcelsByOrderId)[0];
 
 export interface PickupParcelCardProps {
   parcel: Parcel;
@@ -56,6 +56,7 @@ export const PickupParcelCard: React.FC<PickupParcelCardProps> = ({
           display: 'flex',
           border: '#ccc solid 1px',
           borderRadius: '0.375rem',
+          userSelect: 'text',
         }}
       >
         <Checkbox checked={checked} sx={{ height: 40 }} />

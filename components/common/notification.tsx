@@ -1,24 +1,26 @@
 import { useEffect, useRef, useState } from 'react';
+import { useSession } from 'next-auth/react';
 import SocketIOClient, { type Socket } from 'socket.io-client';
 
-import { Notification } from './notification';
-import { type UpdateItemProps } from './notification/update-item';
-import { useSession } from 'next-auth/react';
+import { useUpdateHandler } from '~/hooks/use-update-handler';
+import { UpdatesContext } from '~/providers/updates-provider';
 
-export const NotificationController: React.FC = () => {
+import { NotificationView } from './notification/notification-view';
+import { type UpdateItemProps } from './notification/update-item';
+
+export const Notification: React.FC = () => {
   const session = useSession();
+
+  // socket states
   const socketRef = useRef<Socket | null>(null);
   const [isSocketConnected, setIsSocketConnected] = useState<boolean>(false);
-  const [updates, setUpdates] = useState<UpdateItemProps[]>([]);
 
-  useEffect(() => {
-    if (isSocketConnected) {
-      socketRef.current?.emit('register', {
-        userId: session.data?.user.id,
-        socketId: socketRef.current.id,
-      });
-    }
-  }, [isSocketConnected, session]);
+  // incoming updates
+  const [updates, setUpdates] = useState<UpdateItemProps[]>([]);
+  const [allUpdates, setAllUpdates] = useState<UpdateItemProps[]>([]);
+
+  // TODO: handle updates with queue to prevent racing
+  useUpdateHandler(updates);
 
   useEffect(() => {
     const initSocketConnection = () => {
@@ -33,7 +35,11 @@ export const NotificationController: React.FC = () => {
       });
 
       socket.on('new_update', (data: UpdateItemProps[]) => {
-        setUpdates((prev) => [...prev, ...data]);
+        // TODO: handle updates with queue to prevent racing
+        setUpdates(data);
+
+        // insert new data in higher order
+        setAllUpdates((prev) => [...data, ...prev]);
       });
 
       socket.on('disconnect', () => {
@@ -54,5 +60,9 @@ export const NotificationController: React.FC = () => {
 
   if (!isSocketConnected) return null;
 
-  return <Notification updates={updates} />;
+  return (
+    <UpdatesContext.Provider value={[allUpdates, setAllUpdates]}>
+      <NotificationView updates={allUpdates} />
+    </UpdatesContext.Provider>
+  );
 };

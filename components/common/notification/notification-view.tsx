@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import {
+  Box,
   Badge,
   Divider,
   IconButton,
@@ -29,7 +30,7 @@ const menuProps: {
   },
 };
 
-export const Notification: React.FC<
+export const NotificationView: React.FC<
   React.PropsWithChildren<{ updates: UpdateItemProps[] }>
 > = ({ children, updates }) => {
   const [open, setOpen] = useState<boolean>(false);
@@ -56,11 +57,13 @@ export const Notification: React.FC<
         </Badge>
       </IconButton>
       <Menu {...menuProps} open={open} onClose={onClose} anchorEl={anchorEl}>
-        <NotificationHeader allRead={false} />
+        <NotificationHeader />
         <Divider />
-        {updates.map((update) => (
-          <UpdateItem key={update.id} {...update} />
-        ))}
+        <Box sx={{ maxHeight: '70dvh' }}>
+          {updates.map((update) => (
+            <UpdateItem key={update.id} {...update} />
+          ))}
+        </Box>
       </Menu>
     </>
   );

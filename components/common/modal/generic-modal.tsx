@@ -22,7 +22,14 @@ export const Modal: React.FC = ({}) => {
 
   const Header =
     modalProps.header ??
-    (modalProps.title && <Typography>{modalProps.title}</Typography>);
+    (modalProps.title && (
+      <Typography
+        variant='h2'
+        sx={{ my: 1, ['&:first-letter']: { textTransform: 'capitalize' } }}
+      >
+        {modalProps.title}
+      </Typography>
+    ));
 
   const Content = modalProps.content;
   const Body =

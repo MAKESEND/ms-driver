@@ -38,6 +38,10 @@ export interface PickupTask {
   parcel_count: string;
   order?: string; // order and seq are duplicates
   seq?: string;
+  status?: Extract<
+    ParcelStatus,
+    ParcelStatus.Pending | ParcelStatus.ReadyToPick | ParcelStatus.PickedUp
+  >; // TODO: this is mockup. Need definition of each state
 }
 
 export interface DropoffTask {

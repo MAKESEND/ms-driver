@@ -36,6 +36,7 @@ const msDriverCredentials = CredentialsProvider({
     birthday: { label: 'Birthday', type: 'text' },
   },
   authorize: async (credentials, _req) => {
+    let isDemo = true;
     let driverData: Partial<DriverData> | null = null;
     if (!credentials) return null;
 
@@ -48,6 +49,8 @@ const msDriverCredentials = CredentialsProvider({
         .login(credentials)
         .then(({ id }) => id);
 
+      isDemo = false;
+
       driverData = await authServices.getDriverData(driverId);
     }
 
@@ -56,7 +59,7 @@ const msDriverCredentials = CredentialsProvider({
       Object.values(DriverBasicInfoKeys)
     );
 
-    return { id: driverInfo.id!, ...driverInfo };
+    return { id: driverInfo?.id!, isDemo, ...driverInfo };
   },
 });
 

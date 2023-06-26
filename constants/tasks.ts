@@ -1,5 +1,4 @@
-import type { PickupTask } from '~/types';
-import { ParcelStatus } from './parcel';
+import { PickupParcelStatus } from './parcel';
 
 export enum TaskTypes {
   Dropoff = 'dropoff',
@@ -60,8 +59,9 @@ export const taskKeysToFilter = {
 
 export const PickupFilterOptions = {
   round: [1, 2],
+  status: Object.values(PickupParcelStatus),
 };
 
 export const DropoffFilterOptions = {
-  parcelStatus: [`${ParcelStatus}`],
+  status: Object.values(PickupParcelStatus),
 };

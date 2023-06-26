@@ -4,7 +4,10 @@ import type { PickupTask } from '~/types';
 import { PickupTaskCard } from './pickup-task-card';
 
 const PickupTaskListLayout = styled(Stack)(() => ({
-  margin: '1rem 0',
+  marginTop: 16,
+  marginBottom: 16,
+  paddingLeft: 8,
+  paddingRight: 8,
   gap: 16,
   justifyContent: 'center',
   alignItems: 'center',
