@@ -1,20 +1,33 @@
 import { useState } from 'react';
-import { Stack } from '@mui/material';
+import { CircularProgress, Stack } from '@mui/material';
 
-import { Parcel } from '~/types';
+import type { Parcel } from '~/types';
 
 import { ParcelCard } from '~/components/sorting/parcel-card';
 import { SortFilter } from '~/components/sorting/sorting-filter';
 
-import { useMockData } from '~/providers/mock-data-provider';
+import { useGetSortingParcels } from '~/hooks/use-get-sorting-parcels';
 
-export const Sorting: React.FC = () => {
-  // TODO: remove mock data
-  const { mockData } = useMockData();
-  const sortingList = mockData?.parcelsToSort ?? [];
+export const SortingContent: React.FC = () => {
+  const { data: sortingList, isLoading } = useGetSortingParcels();
 
   const [parcelToSort, setParcelToSort] = useState<Parcel | null>(null);
 
+  if (isLoading) return <CircularProgress sx={{ alignSelf: 'center' }} />;
+
+  return (
+    <>
+      <SortFilter
+        sortingList={sortingList!}
+        parcelToSort={parcelToSort}
+        setParcelToSort={setParcelToSort}
+      />
+      <ParcelCard parcel={parcelToSort} />
+    </>
+  );
+};
+
+export const Sorting: React.FC = () => {
   return (
     <Stack
       flexGrow={1}
@@ -25,12 +38,7 @@ export const Sorting: React.FC = () => {
         maxWidth: (theme) => theme.layout.size.portMaxWidth,
       }}
     >
-      <SortFilter
-        sortingList={sortingList}
-        parcelToSort={parcelToSort}
-        setParcelToSort={setParcelToSort}
-      />
-      <ParcelCard parcel={parcelToSort} />
+      <SortingContent />
     </Stack>
   );
 };

@@ -1,0 +1,5 @@
+export enum QueryKeys {
+  PICKUP_TASK = 'PICKUP_TASK',
+  DROPOFF_TASK = 'DROPOFF_TASK',
+  SORTING_TASK = 'SORTING_TASK',
+}

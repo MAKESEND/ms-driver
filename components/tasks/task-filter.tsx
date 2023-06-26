@@ -3,7 +3,8 @@ import { useTranslation } from 'next-i18next';
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { CircularProgress } from '@mui/material';
 
-import type { PickupTask, DropoffTask } from '~/types';
+import { createOptionStore } from '~/utils/create-option-store';
+import { filterTasks } from '~/utils/filter-tasks';
 
 import {
   taskKeysToFilter,
@@ -27,22 +28,18 @@ const TextField = dynamic(() => import('@mui/material/TextField'), {
 export type DropoffTaskFilterProps = {
   taskType: `${TaskTypes.Dropoff}`;
   filterOptions: typeof DropoffFilterOptions;
-  taskPropsToFilter: keyof DropoffTask;
 };
 
 export type PickupTaskFilterProps = {
   taskType: `${TaskTypes.Pickup}`;
   filterOptions: typeof PickupFilterOptions;
-  taskPropsToFilter: keyof PickupTask;
 };
 
 export type TaskFilterProps = DropoffTaskFilterProps | PickupTaskFilterProps;
 
-export const TaskFilter: React.FC<TaskFilterProps & { label?: string }> = ({
+export const TaskFilter: React.FC<TaskFilterProps> = ({
   filterOptions,
-  label,
   taskType,
-  taskPropsToFilter,
 }) => {
   const { t } = useTranslation('tasks');
   const inputLabelText = t('label.searchParcel');
@@ -51,8 +48,11 @@ export const TaskFilter: React.FC<TaskFilterProps & { label?: string }> = ({
 
   const timerRef = useRef<NodeJS.Timer>();
   const [searchVal, setSearchVal] = useState<string>('');
+  const [disableFilter, setDisableFilter] = useState<boolean>(false);
   const [fusedParcels, setFusedParcels] = useState<typeof allTasks>([]);
-  const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+  const [selectedOptions, setSelectedOptions] = useState<typeof filterOptions>(
+    createOptionStore(filterOptions)
+  );
 
   // TODO: configure to return more precise filter output
   const fuse = useMemo(
@@ -80,29 +80,20 @@ export const TaskFilter: React.FC<TaskFilterProps & { label?: string }> = ({
   }, [fuse, allTasks, searchVal]);
 
   useEffect(() => {
-    if (!selectedOptions.length) {
+    if (Object.values(selectedOptions).every((store) => !store.length)) {
       setFilteredTasks(fusedParcels);
     } else {
-      // TODO: redesign data type to allow multiple filters
-      const filteredTasks = fusedParcels.filter((task) =>
-        selectedOptions.some(
-          (Option) => String(Option) === String(task[taskPropsToFilter])
-        )
-      );
-      setFilteredTasks(filteredTasks);
+      // TODO: execute in web worker
+      setDisableFilter(true);
+      setFilteredTasks(filterTasks(fusedParcels, selectedOptions));
+      setDisableFilter(false);
     }
-  }, [
-    allTasks,
-    taskPropsToFilter,
-    fusedParcels,
-    selectedOptions,
-    setFilteredTasks,
-  ]);
+  }, [allTasks, fusedParcels, selectedOptions, setFilteredTasks]);
 
   const onInputClear = () => setSearchVal('');
 
   const onInputSearch = (event: React.ChangeEvent<HTMLInputElement>) =>
-    setSearchVal(event.target.value.trim());
+    setSearchVal(event.target.value);
 
   const EndAdornment = searchVal ? <ClearIcon onClick={onInputClear} /> : null;
 
@@ -121,8 +112,7 @@ export const TaskFilter: React.FC<TaskFilterProps & { label?: string }> = ({
         }}
       />
       <FilterOptions
-        label={label}
-        taskType={taskType}
+        disabled={disableFilter}
         filterOptions={filterOptions}
         selectedOptions={selectedOptions}
         setSelectedOptions={setSelectedOptions}

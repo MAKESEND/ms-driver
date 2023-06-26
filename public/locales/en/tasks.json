@@ -25,7 +25,9 @@
     "parcel": "parcel",
     "parcels": "parcels",
     "pc": "pc",
-    "pcs": "pcs"
+    "pcs": "pcs",
+    "round": "Round",
+    "status": "Status"
   },
   "btn": {
     "scanner": "Scanner",

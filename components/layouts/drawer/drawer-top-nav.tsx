@@ -9,7 +9,7 @@ import {
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
-import { NotificationController } from '~/components/common/notification-controller';
+import { Notification } from '~/components/common/notification';
 
 export interface AppBarProps {
   open?: boolean;
@@ -41,11 +41,17 @@ import dynamic from 'next/dynamic';
 const MenuIcon = dynamic(() => import('@mui/icons-material/Menu'));
 
 export const AppTitle: React.FC = () => {
-  const { t } = useTranslation('common');
   const { asPath } = useRouter();
+  const { t } = useTranslation('common');
+
+  // TODO: improve header naming template
   const route = asPath.split('/').slice(-1)[0];
 
-  return <Typography variant='h1'>{t(`links.${route}`)}</Typography>;
+  return (
+    <Typography variant='h1'>
+      {t(`links.${route}`, { defaultValue: null }) || route}
+    </Typography>
+  );
 };
 
 export const DrawerTopNav: React.FC<{
@@ -66,7 +72,7 @@ export const DrawerTopNav: React.FC<{
         </IconButton>
         <AppTitle />
         <Box flexGrow={1} />
-        <NotificationController />
+        <Notification />
       </Toolbar>
     </AppBar>
   );

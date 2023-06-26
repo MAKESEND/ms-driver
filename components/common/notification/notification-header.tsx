@@ -1,23 +1,22 @@
 import { useTranslation } from 'next-i18next';
 import { Box, Button, Typography } from '@mui/material';
-import { useState } from 'react';
+import { useUpdates } from '~/providers/updates-provider';
 
-export interface NotificationHeaderProps {
-  allRead?: boolean;
-}
-
-export const NotificationHeader: React.FC<NotificationHeaderProps> = ({
-  allRead = false,
-}) => {
+export const NotificationHeader: React.FC = () => {
   const { t } = useTranslation('common');
-  const headerText = t('topNav.notification.notifications');
+  const headerText = t('topNav.notification.updates');
   const readText = t('topNav.notification.read');
 
-  const [isAllRead, setIsAllRead] = useState<boolean>(allRead);
-  const disabled = isAllRead;
+  const [updates, setUpdates] = useUpdates();
+
+  const disabled = updates.every((update) => update.isRead);
+
+  const updateCount = updates?.length || '';
 
   const onClick = () => {
-    setIsAllRead(true);
+    setUpdates((prevUpdates) =>
+      prevUpdates.map((update) => ({ ...update, isRead: true }))
+    );
   };
 
   return (
@@ -30,7 +29,7 @@ export const NotificationHeader: React.FC<NotificationHeaderProps> = ({
       }}
     >
       <Typography component='h2' sx={{ textAlign: 'start', px: '1rem' }}>
-        {headerText}
+        {updateCount} {headerText}
       </Typography>
       <Button disabled={disabled} onClick={onClick} sx={{ px: 2 }}>
         {readText}

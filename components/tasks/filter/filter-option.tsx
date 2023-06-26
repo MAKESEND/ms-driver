@@ -1,19 +1,21 @@
 import { useEffect, useState } from 'react';
 import { Checkbox, MenuItem, Typography } from '@mui/material';
 
-export interface FilterOptionProps {
+export interface FilterOptionProps<T> {
+  disabled?: boolean;
   option: string;
-  selectedOptions: string[];
-  setSelectedOptions: React.Dispatch<React.SetStateAction<string[]>>;
+  selectedOptions: T;
+  setSelectedOptions: any; // TODO: update to dedicate type
   Label?: React.ReactNode;
 }
 
-export const FilterOption = ({
+export const FilterOption = <T extends any[]>({
+  disabled = false,
   Label,
   option,
   selectedOptions,
   setSelectedOptions,
-}: FilterOptionProps) => {
+}: FilterOptionProps<T>) => {
   const [checked, setChecked] = useState<boolean>(false);
 
   useEffect(() => {
@@ -24,15 +26,15 @@ export const FilterOption = ({
   const onClick = (event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation();
 
-    setSelectedOptions((options) => {
-      if (checked) return options.filter((item) => item !== option);
+    setSelectedOptions((options: any) => {
+      if (checked) return options.filter((item: any) => item !== option);
 
       return option ? [...options, option] : options;
     });
   };
 
   return (
-    <MenuItem onClick={onClick} sx={{ pl: 0 }}>
+    <MenuItem disabled={disabled} onClick={onClick} sx={{ pl: 0 }}>
       <Checkbox checked={checked} onClick={onClick} />
       <Typography fontSize={14}>{Label ?? option}</Typography>
     </MenuItem>

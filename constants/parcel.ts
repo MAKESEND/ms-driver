@@ -21,3 +21,9 @@ export enum ParcelStatus {
   Delivering = 'Delivering',
   Delivered = 'Delivered',
 }
+
+export enum PickupParcelStatus {
+  Pending = 'Pending',
+  ReadyToPick = 'Ready to pick',
+  PickedUp = 'Picked up',
+}

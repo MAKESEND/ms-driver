@@ -10,6 +10,7 @@
   "topNav": {
     "notification": {
       "notifications": "Notifications",
+      "updates": "Updates",
       "read": "Read"
     },
     "search": {
@@ -49,7 +50,8 @@
     "close": "Close",
     "confirm": "Confirm",
     "ok": "OK",
-    "no": "No"
+    "no": "No",
+    "update": "Tab to update"
   },
   "pincode": {
     "title": {

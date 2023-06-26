@@ -11,14 +11,10 @@ import {
 } from '@mui/material';
 
 import { scannerConfigState } from '~/store/scanner';
-import type { TaskTypes } from '~/constants/tasks';
 import { inAppLinks } from '~/constants/side-nav-links';
 
 import type { TaskFilterProps } from '~/components/tasks/task-filter';
-import {
-  FilterOption,
-  type FilterOptionProps,
-} from '~/components/tasks/filter/filter-option';
+import { FilterOption } from '~/components/tasks/filter/filter-option';
 
 import dynamic from 'next/dynamic';
 const FilterIcon = dynamic(
@@ -38,23 +34,21 @@ Button.defaultProps = {
   size: 'small',
 };
 
-export interface FilterOptionsProps {
+export interface FilterOptionsProps<T> {
+  disabled?: boolean;
   filterOptions: TaskFilterProps['filterOptions'];
-  label?: string;
   scan?: boolean;
-  selectedOptions: string[];
-  setSelectedOptions: React.Dispatch<React.SetStateAction<string[]>>;
-  taskType: `${TaskTypes}`;
+  selectedOptions: T;
+  setSelectedOptions: React.Dispatch<React.SetStateAction<T>>;
 }
 
-export const FilterOptions = ({
+export const FilterOptions = <T extends Record<string, any[]>>({
+  disabled = false,
   filterOptions,
-  label,
   scan = true,
   selectedOptions,
   setSelectedOptions,
-  taskType,
-}: FilterOptionsProps) => {
+}: FilterOptionsProps<T>) => {
   const router = useRouter();
   const setScannerConfig = useSetRecoilState(scannerConfigState);
   const { t } = useTranslation('tasks');
@@ -65,8 +59,6 @@ export const FilterOptions = ({
   const onOpenMenu = (event: React.MouseEvent<HTMLElement>) =>
     setAnchorEl(event.currentTarget);
   const onCloseMenu = () => setAnchorEl(null);
-
-  const Label = (option: string) => (label ? `${label} ${option}` : t(option));
 
   const onClick = () => {
     setScannerConfig((prev) => ({ ...prev, task: 'pickup', mode: 'bulk' }));
@@ -79,40 +71,45 @@ export const FilterOptions = ({
     </Button>
   ) : null;
 
+  const updateSelectedFilter =
+    (key: keyof T) => (callback: (value: T[typeof key]) => T[typeof key]) => {
+      setSelectedOptions((prev) => ({ ...prev, [key]: callback(prev[key]) }));
+    };
+
   return (
     <>
-      <Button onClick={onOpenMenu}>
+      <Button disabled={disabled} onClick={onOpenMenu}>
         <FilterIcon />
       </Button>
       <Menu open={open} onClose={onCloseMenu} anchorEl={anchorEl}>
-        {Object.entries(filterOptions).map(([key, values]) => {
-          return (
-            <Stack key={key}>
-              <Typography
-                fontSize={16}
-                variant='secondary'
-                sx={{
-                  ml: 2,
-                  ['&::first-letter']: { textTransform: 'capitalize' },
-                }}
-              >
-                {label}
-              </Typography>
-              {values.map((option: FilterOptionProps['option']) => {
-                const key = String(option);
-                return (
-                  <FilterOption
-                    key={key}
-                    option={key}
-                    selectedOptions={selectedOptions}
-                    setSelectedOptions={setSelectedOptions}
-                    Label={Label(key)}
-                  />
-                );
-              })}
-            </Stack>
-          );
-        })}
+        {Object.entries(filterOptions).map(([filter, options]) => (
+          <Stack key={filter}>
+            <Typography
+              fontSize={16}
+              variant='secondary'
+              sx={{
+                ml: 2,
+                ['&::first-letter']: { textTransform: 'capitalize' },
+              }}
+            >
+              {/* TODO: update filter text */}
+              {t(`label.${filter}`)}
+            </Typography>
+            {options.map((option: (typeof options)[0]) => {
+              const key = String(option);
+
+              return (
+                <FilterOption
+                  disabled={disabled}
+                  key={key}
+                  option={key}
+                  selectedOptions={selectedOptions[filter]}
+                  setSelectedOptions={updateSelectedFilter(filter)}
+                />
+              );
+            })}
+          </Stack>
+        ))}
       </Menu>
       {Scanner}
     </>
