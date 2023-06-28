@@ -10,6 +10,7 @@ import { ParcelCardContent } from './parcel-card-content';
 
 // TODO: remove after restructure and unify parcel props
 import type { parcelsByOrderId } from '~/mocks/parcels';
+
 type Parcel = (typeof parcelsByOrderId)[0];
 
 export interface PickupParcelCardProps {
@@ -20,7 +21,10 @@ export const PickupParcelCard: React.FC<PickupParcelCardProps> = ({
   parcel,
 }) => {
   const { state, dispatch } = usePickupOrderState();
-  const [checked, setChecked] = useState<boolean>(false);
+
+  const [checked, setChecked] = useState<boolean>(
+    state.selectedParcels.includes(parcel.shipmentID)
+  );
 
   // TODO: adding constraint to prevent user from selecting
   // this state needs to sync with select all

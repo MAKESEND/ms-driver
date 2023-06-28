@@ -5,9 +5,9 @@ import { appWithTranslation } from 'next-i18next';
 
 import ErrorBoundary from '~/components/common/error-boundary';
 import { MockDataProvider } from '~/providers/mock-data-provider';
-import CoreProvider from '~/providers/core-provider';
 
 import dynamic from 'next/dynamic';
+const CoreProvider = dynamic(() => import('~/providers/core-provider'));
 const DefaultSeo = dynamic(() =>
   import('next-seo').then((mod) => mod.DefaultSeo)
 );

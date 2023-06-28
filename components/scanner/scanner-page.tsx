@@ -4,6 +4,7 @@ import { ScannerProvider } from '~/providers/scanner-provider';
 
 import { ScannerLayout } from '~/components/scanner/scanner-layout';
 import { CameraLayout } from '~/components/scanner/camera/camera-layout';
+import { ScannerBottomNav } from '~/components/scanner/scanner-button-nav';
 
 import dynamic from 'next/dynamic';
 const ScannerConfig = dynamic(
@@ -20,20 +21,24 @@ const ScannerCamera = dynamic(
     ),
   {
     loading: () => (
-      <Skeleton variant='rectangular' sx={{ height: '100%', width: '100%' }} />
+      <Skeleton
+        variant='rectangular'
+        sx={{ height: '100%', width: '100%', pb: '100%' }}
+      />
     ),
   }
 );
 
 export const ScannerPage: React.FC = () => {
   return (
-    <ScannerLayout>
-      <ScannerProvider>
+    <ScannerProvider>
+      <ScannerLayout>
         <ScannerConfig />
         <CameraLayout>
           <ScannerCamera />
         </CameraLayout>
-      </ScannerProvider>
-    </ScannerLayout>
+        <ScannerBottomNav />
+      </ScannerLayout>
+    </ScannerProvider>
   );
 };

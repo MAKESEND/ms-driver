@@ -24,7 +24,7 @@ export const LinkToScanner: React.FC<LinkToScannerProps> = ({
   const setScannerConfig = useSetRecoilState(scannerConfigState);
 
   const onClick = () => {
-    setScannerConfig((prev) => ({ ...prev, task: 'sorting' }));
+    setScannerConfig((prev) => ({ ...prev, task: 'sorting', mode: 'bulk' }));
     router.push(inAppLinks.scanner?.href!);
   };
 

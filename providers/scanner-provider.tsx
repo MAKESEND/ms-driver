@@ -3,6 +3,7 @@ import { useRecoilValue } from 'recoil';
 
 import { TaskTypes } from '~/constants/tasks';
 import { scannerConfigState } from '~/store/scanner';
+import { ContentType } from '~/constants/content-types';
 
 export enum ScannerMode {
   Single = 'single',
@@ -11,6 +12,7 @@ export enum ScannerMode {
 
 export interface ScannedResult {
   text: string;
+  type: ContentType;
   scannedAt: number;
 }
 
@@ -117,8 +119,10 @@ const reducer = (state: ScannerStore, { type, payload }: ScannerActions) => {
 export const ScannerProvider: React.FC<React.PropsWithChildren> = ({
   children,
 }) => {
-  const scannedResultRef = useRef<ScannedResult[]>([]);
   const scannerConfig = useRecoilValue(scannerConfigState);
+
+  const scannedResultRef = useRef<ScannedResult[]>([]);
+
   const [state, dispatch] = useReducer(reducer, {
     ...defaultScanner,
     config: { ...scannerConfig },

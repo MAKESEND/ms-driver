@@ -21,7 +21,7 @@ import { useTasks } from '~/providers/tasks-provider';
 import dynamic from 'next/dynamic';
 const ClearIcon = dynamic(() => import('@mui/icons-material/Clear'));
 const TextField = dynamic(() => import('@mui/material/TextField'), {
-  ssr: true,
+  ssr: false,
   loading: () => <CircularProgress />,
 });
 
@@ -116,6 +116,8 @@ export const TaskFilter: React.FC<TaskFilterProps> = ({
         filterOptions={filterOptions}
         selectedOptions={selectedOptions}
         setSelectedOptions={setSelectedOptions}
+        taskType={taskType}
+        scan={false}
       />
     </TaskFilterLayout>
   );

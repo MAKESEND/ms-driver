@@ -3,9 +3,7 @@ import '@testing-library/jest-dom/extend-expect';
 import server from '~/mocks/server';
 import { mockFn, mockDeep } from 'jest-mock-extended';
 
-import { type NextRouter } from 'next/router';
 import { type useSession } from 'next-auth/react';
-import { type serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 jest.mock('react-i18next', () => ({
   useTranslation: () => ({ t: (key: string) => key }),
@@ -13,7 +11,7 @@ jest.mock('react-i18next', () => ({
 
 jest.mock('next/router', () => ({
   ...jest.requireActual('next/router'),
-  useRouter: mockFn().mockReturnValue(mockDeep<NextRouter>()),
+  useRouter: jest.fn(),
 }));
 
 jest.mock('next-auth/react', () => ({

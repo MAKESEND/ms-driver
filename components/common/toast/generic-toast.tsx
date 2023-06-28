@@ -45,7 +45,11 @@ export const Toast: React.FC = () => {
         zIndex: (theme) => theme.zIndex.drawer + 1,
       }}
     >
-      <Alert {...state.toastProps} onClose={onClose}>
+      <Alert
+        sx={{ alignItems: 'center' }}
+        {...state.toastProps}
+        onClose={onClose}
+      >
         {Title}
         {Body}
       </Alert>

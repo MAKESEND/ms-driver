@@ -13,9 +13,9 @@ export interface ModalProps extends Partial<MuiModalProps> {
   canEscape?: boolean;
   content?: React.ReactNode;
   onCancel?: CallbackFunction;
-  cancelBtn?: React.FC<Required<React.PropsWithOnClickCallback>>;
+  cancelBtn?: string | React.FC<Required<React.PropsWithOnClickCallback>>;
   onConfirm?: CallbackFunction;
-  confirmBtn?: React.FC<Required<React.PropsWithOnClickCallback>>;
+  confirmBtn?: string | React.FC<Required<React.PropsWithOnClickCallback>>;
 }
 
 export type ModalState = {

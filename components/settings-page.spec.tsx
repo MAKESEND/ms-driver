@@ -1,16 +1,21 @@
-import type { DeepMockProxy } from 'jest-mock-extended';
 import { fireEvent, within } from '@testing-library/react';
+import { useRouter } from 'next/router';
 
 import { customRender } from '~/test/test-utils';
 import { Settings } from './settings-page';
 
-import { useRouter, type NextRouter } from 'next/router';
+const useRouterMock = useRouter as jest.Mock;
 
 describe('Settings Page', () => {
-  const routerMock = useRouter() as DeepMockProxy<NextRouter>;
+  const asPath = '/';
 
   test('should render default language as English', async () => {
-    routerMock.locale = '';
+    useRouterMock.mockReturnValue(() => ({
+      locale: '',
+      asPath,
+      replace: jest.fn(),
+    }));
+
     const { getByText } = customRender(<Settings />);
 
     const languageOption = getByText('English');
@@ -19,7 +24,12 @@ describe('Settings Page', () => {
   });
 
   test('should change language', async () => {
-    routerMock.locale = 'en';
+    const replaceMock = jest.fn();
+    useRouterMock.mockReturnValue({
+      locale: 'en',
+      asPath,
+      replace: replaceMock,
+    });
     const targetLocale = 'zh';
     const { findByRole } = customRender(<Settings />);
 
@@ -28,7 +38,7 @@ describe('Settings Page', () => {
     const listbox = within(await findByRole('listbox'));
     fireEvent.click(listbox.getByText(/中文/i));
 
-    expect(routerMock.replace).toBeCalledWith('/settings', routerMock.asPath, {
+    expect(replaceMock).toBeCalledWith('/settings', asPath, {
       locale: targetLocale,
     });
   });
