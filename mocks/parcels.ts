@@ -106,7 +106,7 @@ export const parcelsToSort: (Parcel & any)[] = [
 export const parcelsByOrderId = [
   {
     shipment_id: 302367,
-    shipmentID: 'EX2209131729392',
+    shipmentID: 'EX2302080835468',
     cod: 0,
     pickup_round: 1,
     pickup_type: 'pickup',
@@ -140,7 +140,7 @@ export const parcelsByOrderId = [
   },
   {
     shipment_id: 302368,
-    shipmentID: 'EX2209131729717',
+    shipmentID: 'EX2305121740126',
     cod: 0,
     pickup_round: 1,
     pickup_type: 'pickup',

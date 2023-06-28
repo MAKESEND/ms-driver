@@ -53,7 +53,7 @@ export const inAppLinks: CustomLinkList = {
         id: InAppLinks.DROPOFF,
         label: 'dropoff',
         href: '/dropoff',
-        disabled: false,
+        disabled: true,
         parent: InAppLinks.TASKS,
       },
     },

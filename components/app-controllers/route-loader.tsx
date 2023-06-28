@@ -1,14 +1,20 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { useSetRecoilState } from 'recoil';
 
+import { preRouteState } from '~/store/pre-route';
 import { PageLoader } from '~/components/common/loader/page-loader';
 
 export const RouteLoader: React.FC = () => {
-  const { events } = useRouter();
+  const { asPath, query, pathname, events } = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const setPreRoute = useSetRecoilState(preRouteState);
 
   useEffect(() => {
-    const changeStart = () => setIsLoading(true);
+    const changeStart = () => {
+      setIsLoading(true);
+      setPreRoute({ asPath, query, pathname });
+    };
     const changeComplete = () => setIsLoading(false);
 
     events.on('routeChangeStart', changeStart);
@@ -21,7 +27,7 @@ export const RouteLoader: React.FC = () => {
       events.off('routeChangeError', changeComplete);
       setIsLoading(false);
     };
-  }, [events]);
+  }, [events, asPath, query, pathname, setPreRoute]);
 
   return <PageLoader isLoading={isLoading} />;
 };

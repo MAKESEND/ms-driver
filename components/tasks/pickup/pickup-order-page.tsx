@@ -1,6 +1,9 @@
 import { useState, useEffect, useReducer, useRef } from 'react';
 import { CircularProgress, Divider, Stack } from '@mui/material';
 
+import { useRecoilValue } from 'recoil';
+import { scannedParcelIds as scannedIdState } from '~/store/scanner';
+
 import { useMockData } from '~/providers/mock-data-provider';
 import {
   reducer,
@@ -31,7 +34,11 @@ export interface PickupOrderPageProps {
 export const PickupOrderPage: React.FC<PickupOrderPageProps> = ({
   orderId: _orderId,
 }) => {
-  const [state, dispatch] = useReducer(reducer, defaultValue);
+  const scannedParcelIds = useRecoilValue(scannedIdState);
+  const [state, dispatch] = useReducer(reducer, {
+    ...defaultValue,
+    selectedParcels: scannedParcelIds,
+  });
   const { dispatch: handleToast } = useToast();
   // TODO: remove mock data
   const { mockData, isLoading: isLoadingList } = useMockData();

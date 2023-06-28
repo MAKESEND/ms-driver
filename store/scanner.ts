@@ -17,3 +17,13 @@ export const scannerConfigState = atom<ScannerStore['config']>({
     task: 'scan',
   },
 });
+
+export const resultOpenState = atom<boolean>({
+  key: 'scanner_result_btn',
+  default: false,
+});
+
+export const scannedParcelIds = atom<string[]>({
+  key: 'scanned_parcel_ids',
+  default: [],
+});

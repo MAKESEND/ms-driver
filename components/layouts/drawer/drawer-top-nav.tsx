@@ -45,7 +45,7 @@ export const AppTitle: React.FC = () => {
   const { t } = useTranslation('common');
 
   // TODO: improve header naming template
-  const route = asPath.split('/').slice(-1)[0];
+  const route = asPath.split('?')[0].split('/').slice(-1)[0];
 
   return (
     <Typography variant='h1'>

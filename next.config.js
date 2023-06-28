@@ -44,7 +44,7 @@ const nextConfig = {
     NEXTAUTH_URL,
     version,
   },
-  reactStrictMode: true,
+  // reactStrictMode: true,
   serverRuntimeConfig: {
     MS_DRIVER_MGMT,
     MS_UPDATE_PARCEL_STATUS,

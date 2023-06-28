@@ -8,7 +8,7 @@ import { useSession } from 'next-auth/react';
 import { useRouter, type NextRouter } from 'next/router';
 
 describe('SessionManager', () => {
-  const routerMock = useRouter() as DeepMockProxy<NextRouter>;
+  const useRouterMock = useRouter as jest.Mock;
   const sessionMock = useSession() as DeepMockProxy<
     ReturnType<typeof useSession>
   >;
@@ -17,39 +17,57 @@ describe('SessionManager', () => {
   const loginPath = `${inAppLinks.auth?.href}${inAppLinks.auth?.nested?.login?.href}`;
 
   test('should redirect to login page', async () => {
+    const replaceMock = jest.fn();
+    useRouterMock.mockReturnValue({
+      asPath: dashboardHref,
+      replace: replaceMock,
+    });
     sessionMock.status = 'unauthenticated';
-    routerMock.asPath = dashboardHref;
+    // routerMock.asPath = dashboardHref;
 
     customRender(<SessionManager />);
 
-    expect(routerMock.replace).toBeCalledWith({
+    expect(replaceMock).toBeCalledWith({
       pathname: loginPath,
-      query: { from: routerMock.asPath },
+      query: { from: dashboardHref },
     });
   });
 
   describe('should redirect after user is authenticated', () => {
+    const replaceMock = jest.fn();
+
     beforeAll(() => {
       sessionMock.status = 'authenticated';
-      routerMock.asPath = loginPath;
     });
 
     test('should redirect to dashboard', async () => {
-      routerMock.query.from = '';
+      useRouterMock.mockReturnValue({
+        asPath: loginPath,
+        replace: replaceMock,
+        query: {
+          from: '',
+        },
+      });
 
       customRender(<SessionManager />);
 
-      expect(routerMock.replace).toBeCalledWith({
+      expect(replaceMock).toBeCalledWith({
         pathname: dashboardHref,
       });
     });
 
     test('should redirect to where user was', async () => {
-      routerMock.query.from = settingsHref;
+      useRouterMock.mockReturnValue({
+        asPath: loginPath,
+        replace: replaceMock,
+        query: {
+          from: settingsHref,
+        },
+      });
 
       customRender(<SessionManager />);
 
-      expect(routerMock.replace).toBeCalledWith({
+      expect(replaceMock).toBeCalledWith({
         pathname: settingsHref,
       });
     });

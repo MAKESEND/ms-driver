@@ -8,6 +8,7 @@ export interface ToastProps extends AlertProps {
   content?: React.ReactNode;
   severity?: AlertProps['severity'];
   onClose?: CallbackFunction;
+  closeIn?: number; // milliseconds
 }
 
 export enum ToastActionTypes {
@@ -31,7 +32,7 @@ export type ToastState = {
   toastProps: ToastProps | null;
 };
 
-type ToastActions = ToastOpenAction | ToastCloseAction;
+export type ToastActions = ToastOpenAction | ToastCloseAction;
 
 export const ToastContext = createContext<{
   state: ToastState;
@@ -47,9 +48,20 @@ const toastDefaultState: ToastState = {
 export const reducer = (state: ToastState, { type, payload }: ToastActions) => {
   switch (type) {
     case ToastActionTypes.OpenToast:
-      return { ...state, show: true, toastProps: payload };
+      const { closeIn = toastDefaultState.closeIn, ...toastProps } = payload;
+      return {
+        ...state,
+        show: true,
+        closeIn: payload.closeIn ?? 0,
+        toastProps: toastProps,
+      };
     case ToastActionTypes.CloseToast:
-      return { ...state, show: false, toastProps: null };
+      return {
+        ...state,
+        show: false,
+        closeIn: toastDefaultState.closeIn,
+        toastProps: null,
+      };
     default:
       return state;
   }

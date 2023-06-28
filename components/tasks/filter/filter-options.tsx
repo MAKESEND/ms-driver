@@ -17,6 +17,7 @@ import type { TaskFilterProps } from '~/components/tasks/task-filter';
 import { FilterOption } from '~/components/tasks/filter/filter-option';
 
 import dynamic from 'next/dynamic';
+import { TaskTypes } from '~/constants/tasks';
 const FilterIcon = dynamic(
   () => import('@mui/icons-material/FilterAltOutlined')
 );
@@ -40,6 +41,7 @@ export interface FilterOptionsProps<T> {
   scan?: boolean;
   selectedOptions: T;
   setSelectedOptions: React.Dispatch<React.SetStateAction<T>>;
+  taskType: `${TaskTypes}`;
 }
 
 export const FilterOptions = <T extends Record<string, any[]>>({
@@ -48,6 +50,7 @@ export const FilterOptions = <T extends Record<string, any[]>>({
   scan = true,
   selectedOptions,
   setSelectedOptions,
+  taskType,
 }: FilterOptionsProps<T>) => {
   const router = useRouter();
   const setScannerConfig = useSetRecoilState(scannerConfigState);
@@ -61,7 +64,7 @@ export const FilterOptions = <T extends Record<string, any[]>>({
   const onCloseMenu = () => setAnchorEl(null);
 
   const onClick = () => {
-    setScannerConfig((prev) => ({ ...prev, task: 'pickup', mode: 'bulk' }));
+    setScannerConfig((prev) => ({ ...prev, task: taskType, mode: 'bulk' }));
     router.push(inAppLinks.scanner?.href!);
   };
 

@@ -1,6 +1,9 @@
 import { IconButton } from '@mui/material';
 import { QrReader, type QrReaderProps } from 'react-qr-reader';
 
+import { getContentType } from '~/utils/get-content-type';
+
+import { ToastActionTypes, useToast } from '~/providers/toast-provider';
 import {
   useScanner,
   ScannerActionTypes,
@@ -8,6 +11,7 @@ import {
 } from '~/providers/scanner-provider';
 
 import dynamic from 'next/dynamic';
+
 const HighlightOffIcon = dynamic(
   () => import('@mui/icons-material/HighlightOff')
 );
@@ -19,6 +23,8 @@ export const QRReader: React.FC = () => {
     scannedResultRef,
   } = useScanner();
 
+  const { dispatch: handleToast } = useToast();
+
   const videoConstraints = deviceId
     ? { deviceId: { exact: deviceId } }
     : { facingMode: 'environment' };
@@ -26,25 +32,42 @@ export const QRReader: React.FC = () => {
   const onScannedResult: QrReaderProps['onResult'] = (result, error) => {
     if (result) {
       const text = result.getText();
-      const scannedResult = { text, scannedAt: Date.now() };
+      const type = getContentType(text);
+      const scannedResult = { text, type, scannedAt: Date.now() };
 
-      console.log(
-        '🚀 ~ file: qr-reader.tsx:31 ~ scannedResult:',
-        scannedResult
-      );
       // TODO: business cases after scanning on each task and mode
       if (config.mode === ScannerMode.Single) {
         scannedResultRef.current = [scannedResult];
         dispatch({ type: ScannerActionTypes.CloseScanner });
       } else if (config.mode === ScannerMode.Bulk) {
-        scannedResultRef.current = [...scannedResultRef.current, scannedResult];
+        if (!scannedResultRef.current.map((item) => item.text).includes(text)) {
+          scannedResultRef.current = [
+            scannedResult,
+            ...scannedResultRef.current,
+          ];
+        }
       }
+
+      handleToast({
+        type: ToastActionTypes.OpenToast,
+        payload: {
+          closeIn: 3000,
+          icon: false,
+          content: `Scanned ${text}`,
+        },
+      });
     }
 
     // error will be an empty object {}
     // when scanner got nothing during the interval
     if (error && !Object.keys(error).length) {
       // TODO: handle error
+      handleToast({
+        type: ToastActionTypes.OpenToast,
+        payload: {
+          content: error?.message || 'something went wrong',
+        },
+      });
     }
   };
 
