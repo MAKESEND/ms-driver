@@ -69,8 +69,6 @@ export const PickupOrderPage: React.FC<PickupOrderPageProps> = ({
     }
   }, [mockData?.parcelsByOrderId]);
 
-  const scannerHref = `${inAppLinks.scanner?.href}?task=${TaskTypes.Pickup}`;
-
   // TODO: update constraint on select all checkbox
   // this should be synced and affect checkbox in each parcel card in the list
   const disableSelector = isLoadingList;
@@ -100,7 +98,11 @@ export const PickupOrderPage: React.FC<PickupOrderPageProps> = ({
       <InDrawerLayout sx={{ pb: 12, height: '100%', overflowY: 'auto' }}>
         <Stack gap={2} sx={{ py: 1 }} alignItems='center'>
           <TaskMedia disabled={isUploadingImg} />
-          <TaskSelector href={scannerHref} disabled={disableSelector} />
+          <TaskSelector
+            taskType='pickup'
+            href={inAppLinks.scanner?.href}
+            disabled={disableSelector}
+          />
         </Stack>
         <Divider />
         <ParcelList parcels={state.filteredParcels} />
